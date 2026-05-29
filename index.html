@@ -13,8 +13,8 @@
     <div class="sky-canvas" aria-hidden="true"></div>
     <div class="progress-bar" id="progressBar"></div>
     <nav class="chapter-rail" id="chapterRail" aria-label="Section navigation">
-        <a href="#writing"><span class="dot"></span><span class="label">Writing</span></a>
         <a href="#experience"><span class="dot"></span><span class="label">Experience</span></a>
+        <a href="#writing"><span class="dot"></span><span class="label">Writing</span></a>
         <a href="#interests"><span class="dot"></span><span class="label">Off the Page</span></a>
         <a href="#skills"><span class="dot"></span><span class="label">Skills</span></a>
         <a href="#projects"><span class="dot"></span><span class="label">Work</span></a>
@@ -25,8 +25,8 @@
             <a href="index.html" class="logo">Sky</a>
             <div class="nav-right">
                 <ul>
-                    <li><a href="#writing">Writing</a></li>
                     <li><a href="#experience">Experience</a></li>
+                    <li><a href="#writing">Writing</a></li>
                     <li><a href="#interests">Off the Page</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#projects">Work</a></li>
@@ -60,9 +60,46 @@
     </header>
 
     <main>
+        <section id="experience">
+            <div class="section-head">
+                <span class="section-label"><span class="num">01</span> Experience</span>
+                <p class="section-note">Where I've put the engineering to work — from big tech to a bank to a game studio.</p>
+            </div>
+            <div class="timeline">
+                <div class="tl-item">
+                    <div class="tl-head">
+                        <span class="tl-role">Applied AI Engineer <span class="tl-org">· AWS</span></span>
+                        <span class="tl-when">Mar 2026 — Present</span>
+                    </div>
+                    <p>Go-To-Market Engineering. Architected an internal multi-agent framework running concurrent sub-agents for data extraction, report generation, and a browser-controlling web-scraping pipeline that autonomously qualifies sales leads. Shipped automation tools over MCP servers and Amazon Q so non-technical teams could self-serve complex Excel field-mapping, and built a self-improving meta-agent testbed to benchmark prompt robustness.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-head">
+                        <span class="tl-role">Machine Learning Engineer <span class="tl-org">· J.P. Morgan Asset Management</span></span>
+                        <span class="tl-when">Jun — Aug 2025</span>
+                    </div>
+                    <p>Built a multi-agent system with an LLM-powered natural language query interface for Portfolio Analytics, combining structured and unstructured data. Engineered real-time data pipelines with quant researchers and PMs, and delivered an internal framework for dynamic code generation and execution via agent graphs — adopted across the Asset Management LOB.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-head">
+                        <span class="tl-role">Data Science Intern <span class="tl-org">· Foodpanda</span></span>
+                        <span class="tl-when">Jun — Aug 2024</span>
+                    </div>
+                    <p>Built an ML-driven vendor churn model from high-dimensional data, and an end-to-end pipeline for embedding, storage, and mapping of 3M+ menu items across companies. Improved reliability of mission-critical data by 10% via snapshot models and data-integrity fixes.</p>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-head">
+                        <span class="tl-role">Game Developer <span class="tl-org">· Binary Tree Studio</span></span>
+                        <span class="tl-when">Jun — Aug 2023</span>
+                    </div>
+                    <p>Sole programmer on a Unity / C# game prototype — designed and built the core mechanics end to end, with a bot system, procedural map generation, and round-based card mechanics, working alongside level designers and artists.</p>
+                </div>
+            </div>
+        </section>
+
         <section id="writing">
             <div class="section-head">
-                <span class="section-label"><span class="num">01</span> Contents</span>
+                <span class="section-label"><span class="num">02</span> Contents</span>
                 <p class="section-note">A running collection — essays, poems, and small fictions.</p>
             </div>
             <div class="featured">
@@ -274,43 +311,6 @@
                     <p>Near a worn out fence of an abandoned land, somehow trees were able to grow from the cracks of the concrete floor, thin tree…</p>
                     <a href="essays/fortuity-is-the-beauty-of-life.html" class="card-link">Continue reading &rarr;</a>
                 </article>
-            </div>
-        </section>
-
-        <section id="experience" class="reveal-up">
-            <div class="section-head">
-                <span class="section-label"><span class="num">02</span> Experience</span>
-                <p class="section-note">Where I've put the engineering to work — from big tech to a bank to a game studio.</p>
-            </div>
-            <div class="timeline">
-                <div class="tl-item">
-                    <div class="tl-head">
-                        <span class="tl-role">Applied AI Engineer <span class="tl-org">· AWS</span></span>
-                        <span class="tl-when">Mar 2026 — Present</span>
-                    </div>
-                    <p>Go-To-Market Engineering. Architected an internal multi-agent framework running concurrent sub-agents for data extraction, report generation, and a browser-controlling web-scraping pipeline that autonomously qualifies sales leads. Shipped automation tools over MCP servers and Amazon Q so non-technical teams could self-serve complex Excel field-mapping, and built a self-improving meta-agent testbed to benchmark prompt robustness.</p>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-head">
-                        <span class="tl-role">Machine Learning Engineer <span class="tl-org">· J.P. Morgan Asset Management</span></span>
-                        <span class="tl-when">Jun — Aug 2025</span>
-                    </div>
-                    <p>Built a multi-agent system with an LLM-powered natural language query interface for Portfolio Analytics, combining structured and unstructured data. Engineered real-time data pipelines with quant researchers and PMs, and delivered an internal framework for dynamic code generation and execution via agent graphs — adopted across the Asset Management LOB.</p>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-head">
-                        <span class="tl-role">Data Science Intern <span class="tl-org">· Foodpanda</span></span>
-                        <span class="tl-when">Jun — Aug 2024</span>
-                    </div>
-                    <p>Built an ML-driven vendor churn model from high-dimensional data, and an end-to-end pipeline for embedding, storage, and mapping of 3M+ menu items across companies. Improved reliability of mission-critical data by 10% via snapshot models and data-integrity fixes.</p>
-                </div>
-                <div class="tl-item">
-                    <div class="tl-head">
-                        <span class="tl-role">Game Developer <span class="tl-org">· Binary Tree Studio</span></span>
-                        <span class="tl-when">Jun — Aug 2023</span>
-                    </div>
-                    <p>Sole programmer on a Unity / C# game prototype — designed and built the core mechanics end to end, with a bot system, procedural map generation, and round-based card mechanics, working alongside level designers and artists.</p>
-                </div>
             </div>
         </section>
 
