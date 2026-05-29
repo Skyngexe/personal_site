@@ -1,50 +1,91 @@
 import os
 import re
 
+# --- Titles, in the order they appear in essays.md ---
 titles = [
-    'Preface', 'Breakfast Ritual', 'Gifted polymorphism', 'Coffee break', 
-    'Dissolution', 'Weight or lightness', 'Relationships', 'Tampering', 'Typhoon', 
-    'Originality, authenticity and self-identity', 
-    'Fantasy of my own funeral', 'Mr Nimbus and Roger', 'Fake tattoo', 'Til then', 
-    'Chaos and comfort', 'English Proficiency as a class indicator', 'Pool in the city', 
-    'Endurance running is an abusive self-masturbatory act', 'The optimal distance of one another', 
-    'The last semester, there goes my training wheels', 'Form over functionality', 
-    'The anatomy of pretentious culture', 'Attention is all we need', 'Vitiligo', 
-    'We should be freakier', 'La Vache', 'Rain', 'Maxxing', 'The Art of Living'
+    'Preface',
+    'Breakfast Ritual',
+    'Gifted polymorphism',
+    'Coffee break',
+    'Dissolution',
+    'Weight or lightness',
+    'Relationships',
+    'Tampering',
+    'Typhoon',
+    'Originality, authenticity and self-identity',
+    'Fantasy of my own funeral',
+    'Mr Nimbus and Roger',
+    'Fake tattoo',
+    'Til then',
+    'Chaos and comfort',
+    'English Proficiency as a class indicator',
+    'Pool in the city',
+    'Endurance running is an abusive self-masturbatory act',
+    'The optimal distance of one another',
+    'The last semester, there goes my training wheels',
+    'Form over functionality',
+    'The anatomy of pretentious culture',
+    'Attention is all we need',
+    'Vitiligo',
+    'We should be freakier',
+    'La Vache',
+    'Rain',
+    'Maxxing',
+    'The Art of Living',
+    'Ego death is the death by Guillotine',
+    'The view from (almost) fullway down',
+    'Glitters of thy eyes',
+    'Fortuity is the beauty of life',
 ]
 
-# Auto-assigned categories for each title (fallback to 'Misc')
+# --- Clean, consolidated taxonomy (7 categories, no overlaps) ---
 CATEGORY_MAP = {
-    'Preface': 'Personal / Identity',
+    'Preface': 'Philosophy & Reflection',
     'Breakfast Ritual': 'Rituals & Everyday',
-    'Gifted polymorphism': 'Personal / Identity',
-    'Coffee break': 'Rituals & Everyday',
+    'Gifted polymorphism': 'Identity & Self',
+    'Coffee break': 'Poems',
     'Dissolution': 'Philosophy & Reflection',
     'Weight or lightness': 'Philosophy & Reflection',
     'Relationships': 'Relationships',
-    'Tampering': 'Culture & Society',
-    'Typhoon': 'Place & Weather',
+    'Tampering': 'Poems',
+    'Typhoon': 'Poems',
     'Originality, authenticity and self-identity': 'Identity & Self',
     'Fantasy of my own funeral': 'Philosophy & Reflection',
     'Mr Nimbus and Roger': 'Identity & Self',
     'Fake tattoo': 'Identity & Self',
     'Til then': 'Relationships',
-    'Chaos and comfort': 'Art of Living & Misc',
-    'English Proficiency as a class indicator': 'AI & Technology',
-    'Pool in the city': 'Place & Weather',
+    'Chaos and comfort': 'Identity & Self',
+    'English Proficiency as a class indicator': 'Culture & Society',
+    'Pool in the city': 'Philosophy & Reflection',
     'Endurance running is an abusive self-masturbatory act': 'Rituals & Everyday',
     'The optimal distance of one another': 'Relationships',
-    'The last semester, there goes my training wheels': 'Relationships',
-    'Form over functionality': 'Art of Living & Misc',
-    'The anatomy of pretentious culture': 'AI & Technology',
-    'Attention is all we need': 'AI & Technology',
-    'Vitiligo': 'Art of Living & Misc',
-    'We should be freakier': 'Art of Living & Misc',
-    'La Vache': 'Art of Living & Misc',
-    'Rain': 'Place & Weather',
+    'The last semester, there goes my training wheels': 'Philosophy & Reflection',
+    'Form over functionality': 'Culture & Society',
+    'The anatomy of pretentious culture': 'Culture & Society',
+    'Attention is all we need': 'Culture & Society',
+    'Vitiligo': 'Poems',
+    'We should be freakier': 'Poems',
+    'La Vache': 'Poems',
+    'Rain': 'Poems',
     'Maxxing': 'Culture & Society',
-    'The Art of Living': 'Art of Living & Misc'
+    'The Art of Living': 'Philosophy & Reflection',
+    'Ego death is the death by Guillotine': 'Short Stories',
+    'The view from (almost) fullway down': 'Philosophy & Reflection',
+    'Glitters of thy eyes': 'Philosophy & Reflection',
+    'Fortuity is the beauty of life': 'Philosophy & Reflection',
 }
+
+# Order categories should appear in the filter bar
+CATEGORY_ORDER = [
+    'Identity & Self',
+    'Philosophy & Reflection',
+    'Relationships',
+    'Rituals & Everyday',
+    'Culture & Society',
+    'Poems',
+    'Short Stories',
+]
+
 if not os.path.exists('essays.md'):
     print("essays.md not found.")
     exit()
@@ -52,127 +93,188 @@ if not os.path.exists('essays.md'):
 with open('essays.md', 'r', encoding='utf-8') as f:
     text = f.read()
 
-# Pattern to find titles on standalone lines
+# Split on title lines. Allow trailing whitespace after a title (this previously
+# caused 'Vitiligo ' and 'Maxxing ' to be silently dropped).
 pattern = '|'.join([re.escape(t) for t in titles])
-# Using a lookahead to split and keep the title
-segments = re.split(f'^({pattern})$', text, flags=re.MULTILINE)
+segments = re.split(f'^({pattern})[ \\t]*$', text, flags=re.MULTILINE)
 
-# The result of re.split is [text_before, title1, content1, title2, content2, ...]
 essays = []
-if segments[0].strip():
-    essays.append(('Untitled', segments[0]))
-
 for i in range(1, len(segments), 2):
-    title = segments[i]
-    content = segments[i+1] if i+1 < len(segments) else ''
+    title = segments[i].strip()
+    content = segments[i + 1] if i + 1 < len(segments) else ''
     essays.append((title, content))
 
 os.makedirs('essays', exist_ok=True)
+os.makedirs('categories', exist_ok=True)
 
-TEMPLATE = """<!DOCTYPE html>
+ESSAY_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{TITLE}} | Sky's Thought Hub</title>
+    <title>{{TITLE}} — Sky</title>
     <link rel="stylesheet" href="../styles.css">
-    <style>
-        .essay-body { max-width: 750px; margin: 6rem auto 10rem; padding: 0 2rem; }
-        .essay-body h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 3rem; color: #1c1c1c; }
-        .meta { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: #8b5e3c; margin-bottom: 2rem; display: block; }
-        .prose { font-family: 'Lora', serif; font-size: 1.25rem; line-height: 1.8; color: #333; }
-        .prose p { margin-bottom: 2rem; }
-        .prose h3 { margin: 3rem 0 1.5rem; font-family: 'Lora', serif; font-weight: 600; color: #1c1c1c; }
-        .back-link { display: inline-block; margin-bottom: 3rem; color: #5e5e5e; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
-        .back-link:hover { color: #1c1c1c; }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%238a3324' fill-opacity='0.08' stroke='%238a3324' stroke-width='2'/><circle cx='50' cy='50' r='9' fill='%238a3324'/></svg>">
+    <script>(function(){var t=localStorage.getItem('theme')||((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
-    <div class="nav-container"><nav><a href="../index.html" class="logo">SKY.LOG</a></nav></div>
-    <main><article class="essay-body">
-    <a href="../index.html" class="back-link">&larr; Back to Home</a>
-    <span class="meta">2026 | Perspective</span>
-    <span class="category">{{CATEGORY}}</span>
-    <h1>{{TITLE}}</h1>
-    <div class="prose">{{CONTENT}}</div></article></main>
-    <footer><p>&copy; 2026 Sky. All rights reserved.</p></footer>
-</body></html>"""
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="nav-container"><nav>
+        <a href="../index.html" class="logo">Sky</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle day / dusk mode" title="Toggle day / dusk">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M1.8 12h2.4M19.8 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        </button>
+    </nav></div>
+    <main>
+        <article class="essay-body">
+            <a href="../index.html#writing" class="back-link">&larr; All writing</a>
+            <span class="meta">{{CATEGORY}}</span>
+            <h1>{{TITLE}}</h1>
+            <div class="prose">{{CONTENT}}</div>
+        </article>
+    </main>
+    <footer>
+        <p class="colophon">Built with <strong>Claude Code</strong>.</p>
+        <p class="copyright">&copy; 2026 Sky. All rights reserved.</p>
+    </footer>
+    <script>
+    (function(){
+        var root=document.documentElement, t=document.getElementById('themeToggle');
+        t.addEventListener('click',function(){var n=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',n);localStorage.setItem('theme',n);});
+        var bar=document.getElementById('progressBar');
+        function s(){var h=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(h>0?(window.scrollY/h)*100:0)+'%';document.querySelector('.nav-container').classList.toggle('scrolled',window.scrollY>10);}
+        window.addEventListener('scroll',s,{passive:true});s();
+    })();
+    </script>
+</body>
+</html>"""
+
+CATEGORY_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{CAT}} — Sky</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script>(function(){var t=localStorage.getItem('theme')||((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
+</head>
+<body>
+    <div class="nav-container"><nav><a href="../index.html" class="logo">Sky</a></nav></div>
+    <main>
+        <section class="category-page">
+            <a href="../index.html#writing" class="back-link">&larr; All writing</a>
+            <h1>{{CAT}}</h1>
+            {{ITEMS}}
+        </section>
+    </main>
+    <footer>
+        <p class="colophon">Built with <strong>Claude Code</strong>.</p>
+        <p class="copyright">&copy; 2026 Sky. All rights reserved.</p>
+    </footer>
+</body>
+</html>"""
+
 
 def get_html(md):
-    """
-    Converts markdown content into HTML paragraphs.
-    Splits content by double newlines to identify paragraphs.
-    Preserves single newlines within paragraphs as <br> tags.
-    """
-    # If a single newline likely represents a paragraph break (e.g. sentence end
-    # followed by a capitalized line), normalize it to a double newline so the
-    # paragraph splitter will treat it as a new paragraph.
+    """Convert plain text into HTML paragraphs.
+    A sentence end followed by a capitalized new line is treated as a paragraph
+    break; remaining single newlines become <br> (keeps poem line breaks)."""
     md = re.sub(r"([\.\?!][\"']?)\s*\n(?=[A-Z])", r"\1\n\n", md)
-
-    paragraphs = re.split(r'\n\n+', md.strip())  # Split by double newlines or more
+    paragraphs = re.split(r'\n\n+', md.strip())
     html = ""
     for para in paragraphs:
         if para.strip():
-            # Replace single newlines within a paragraph with <br> tags
-            para = para.replace('\n', '<br>')
-            html += f"<p>{para.strip()}</p>\n"
+            para = para.strip().replace('\n', '<br>')
+            html += f"<p>{para}</p>\n"
     return html
 
-index_links = []
+
+index_cards = []
 categories = {}
+
 for title, content in essays:
-    if not title.strip() or not content.strip(): continue
-    
+    if not title or not content.strip():
+        continue
+
     slug = re.sub(r'[^a-zA-Z0-9]+', '-', title.lower()).strip('-')
     filename = f"{slug}.html"
-    
-    html_content = get_html(content)
-    category = CATEGORY_MAP.get(title, 'Misc')
-    page = TEMPLATE.replace('{{TITLE}}', title).replace('{{CONTENT}}', html_content).replace('{{CATEGORY}}', category)
-    
+    category = CATEGORY_MAP.get(title, 'Philosophy & Reflection')
+
+    # Essay page
+    page = (ESSAY_TEMPLATE
+            .replace('{{TITLE}}', title)
+            .replace('{{CONTENT}}', get_html(content))
+            .replace('{{CATEGORY}}', category))
     with open(os.path.join('essays', filename), 'w', encoding='utf-8') as f:
         f.write(page)
-    
-    # Summary for index
+
+    # Summary for the card
     words = content.strip().split()
-    summary = ' '.join(words[:20]) + "..." if len(words) > 20 else content.strip()
-    
-    index_links.append(f"""<article class=\"card\" data-category=\"{category}\">\n                    <h3>{title}.</h3>\n                    <p>{summary}</p>\n                    <a href=\"essays/{filename}\" class=\"card-link\">Continue reading &rarr;</a>\n                </article>""")
-    # collect categories
+    wordcount = len(words)
+    summary = ' '.join(words[:24]) + ('…' if wordcount > 24 else '')
+
+    index_cards.append(
+        '<article class="card" data-category="{cat}" data-words="{wc}">\n'
+        '                    <span class="card-cat">{cat}</span>\n'
+        '                    <h3>{title}.</h3>\n'
+        '                    <p>{summary}</p>\n'
+        '                    <a href="essays/{fn}" class="card-link">Continue reading &rarr;</a>\n'
+        '                </article>'.format(cat=category, title=title, summary=summary, fn=filename, wc=wordcount)
+    )
+
     categories.setdefault(category, []).append((title, filename, summary))
 
-# Update index.html Hub section
+# --- Category landing pages ---
+for cat, items in categories.items():
+    cat_slug = re.sub(r'[^a-zA-Z0-9]+', '-', cat.lower()).strip('-')
+    items_html = "\n".join(
+        '<article class="card">\n'
+        '                <span class="card-cat">{cat}</span>\n'
+        '                <h3>{t}.</h3>\n'
+        '                <p>{s}</p>\n'
+        '                <a href="../essays/{fn}" class="card-link">Continue reading &rarr;</a>\n'
+        '            </article>'.format(cat=cat, t=t, s=s, fn=fn)
+        for t, fn, s in items
+    )
+    cat_page = CATEGORY_TEMPLATE.replace('{{CAT}}', cat).replace('{{ITEMS}}', items_html)
+    with open(os.path.join('categories', f"{cat_slug}.html"), 'w', encoding='utf-8') as f:
+        f.write(cat_page)
+
+# --- Filter bar (ordered) ---
+category_links = []
+for cat in CATEGORY_ORDER:
+    if cat not in categories:
+        continue
+    cat_slug = re.sub(r'[^a-zA-Z0-9]+', '-', cat.lower()).strip('-')
+    category_links.append(
+        '<a href="#" class="category-link" data-category="{cat}" '
+        'data-page="categories/{slug}.html">{cat}</a>'.format(cat=cat, slug=cat_slug)
+    )
+categories_nav = '<div class="categories">' + ''.join(category_links) + '</div>'
+
+# --- Inject into index.html writing grid ---
 with open('index.html', 'r', encoding='utf-8') as f:
     orig_index = f.read()
 
-# Replace the grid content
-grid_replacement = "\n                ".join(index_links)
-# Write category pages
-os.makedirs('categories', exist_ok=True)
-category_links = []
-for cat, items in categories.items():
-    cat_slug = re.sub(r'[^a-zA-Z0-9]+', '-', cat.lower()).strip('-')
-    cat_filename = f"{cat_slug}.html"
-    items_html = "\n".join([f'<article class="card">\n  <h3>{t}.</h3>\n  <p>{s}</p>\n  <a href="../essays/{fn}" class="card-link">Continue reading &rarr;</a>\n</article>' for t, fn, s in items])
-    cat_page = f"""<!DOCTYPE html>
-<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>{cat} | Sky's Thought Hub</title>\n<link rel=\"stylesheet\" href=\"../styles.css\">\n</head>\n<body>\n<div class=\"nav-container\"><nav><a href=\"../index.html\" class=\"logo\">SKY.LOG</a></nav></div>\n<main><section class=\"category-page\">\n<h1>{cat}</h1>\n{items_html}\n</section></main>\n<footer><p>&copy; 2026 Sky. All rights reserved.</p></footer>\n</body>\n</html>"""
-    with open(os.path.join('categories', cat_filename), 'w', encoding='utf-8') as f:
-        f.write(cat_page)
-    # make category links act as client-side filters (href '#' so they don't navigate)
-    # but keep the category page url in data-page for optional use
-    category_links.append(f'<a href="#" class="category-link" data-category="{cat}" data-page="categories/{cat_filename}">{cat}</a>')
+grid_inner = (
+    '\n                ' + categories_nav +
+    '\n                ' + "\n                ".join(index_cards) +
+    '\n            '
+)
 
-# build categories nav html
-categories_nav = '<div class="categories">' + ' | '.join(category_links) + '</div>'
-# Replace the entire grid block inside the writing section (up to the section end)
 new_index = re.sub(
     r'(<section id="writing">.*?<div class="grid">)(.*?)(</div>\s*</section>)',
-    lambda m: m.group(1) + '\n                ' + categories_nav + '\n                ' + grid_replacement + '\n            ' + m.group(3),
+    lambda m: m.group(1) + grid_inner + m.group(3),
     orig_index,
-    flags=re.DOTALL
+    count=1,
+    flags=re.DOTALL,
 )
 
 with open('index.html', 'w', encoding='utf-8') as f:
     f.write(new_index)
 
-print(f"Migration complete: {len(index_links)} essays processed.")
+print(f"Done: {len(index_cards)} essays, {len(categories)} categories.")
+for cat in CATEGORY_ORDER:
+    if cat in categories:
+        print(f"  {cat}: {len(categories[cat])}")

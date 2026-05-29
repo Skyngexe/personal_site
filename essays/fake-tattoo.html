@@ -3,30 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fake tattoo | Sky's Thought Hub</title>
+    <title>Fake tattoo — Sky</title>
     <link rel="stylesheet" href="../styles.css">
-    <style>
-        .essay-body { max-width: 750px; margin: 6rem auto 10rem; padding: 0 2rem; }
-        .essay-body h1 { font-size: 3.5rem; line-height: 1.1; margin-bottom: 3rem; color: #1c1c1c; }
-        .meta { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: #8b5e3c; margin-bottom: 2rem; display: block; }
-        .prose { font-family: 'Lora', serif; font-size: 1.25rem; line-height: 1.8; color: #333; }
-        .prose p { margin-bottom: 2rem; }
-        .prose h3 { margin: 3rem 0 1.5rem; font-family: 'Lora', serif; font-weight: 600; color: #1c1c1c; }
-        .back-link { display: inline-block; margin-bottom: 3rem; color: #5e5e5e; text-decoration: none; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.3s; }
-        .back-link:hover { color: #1c1c1c; }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%238a3324' fill-opacity='0.08' stroke='%238a3324' stroke-width='2'/><circle cx='50' cy='50' r='9' fill='%238a3324'/></svg>">
+    <script>(function(){var t=localStorage.getItem('theme')||((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
-    <div class="nav-container"><nav><a href="../index.html" class="logo">SKY.LOG</a></nav></div>
-    <main><article class="essay-body">
-    <a href="../index.html" class="back-link">&larr; Back to Home</a>
-    <span class="meta">2026 | Perspective</span>
-    <span class="category">Identity & Self</span>
-    <h1>Fake tattoo</h1>
-    <div class="prose"><p>On Halloween night I asked my girlfriend to draw two symbols on my arms to go with the vibe. When I met up with my friends, they asked if that’s real and said they wouldn’t be surprised if I got an actual one, like a dragon or something.</p>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="nav-container"><nav>
+        <a href="../index.html" class="logo">Sky</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle day / dusk mode" title="Toggle day / dusk">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M1.8 12h2.4M19.8 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        </button>
+    </nav></div>
+    <main>
+        <article class="essay-body">
+            <a href="../index.html#writing" class="back-link">&larr; All writing</a>
+            <span class="meta">Identity & Self</span>
+            <h1>Fake tattoo</h1>
+            <div class="prose"><p>On Halloween night I asked my girlfriend to draw two symbols on my arms to go with the vibe. When I met up with my friends, they asked if that’s real and said they wouldn’t be surprised if I got an actual one, like a dragon or something.</p>
 <p>While this comment itself doesn’t carry much weight, it exposes the gap between my self-perception and other’s perceptions of me.</p>
 <p>I tend to think I am more or less a conservative guy, who adheres to societal conventions like building a career to acquire a stable stream of income and do not see myself as a rebellious person. Yet some see me more edgy than I imagine, making such contradictory narrative compelling to navigate.</p>
 <p>Am I a conformist or non-conformist? I ponder.</p>
-</div></article></main>
-    <footer><p>&copy; 2026 Sky. All rights reserved.</p></footer>
-</body></html>
+</div>
+        </article>
+    </main>
+    <footer>
+        <p class="colophon">Built with <strong>Claude Code</strong>.</p>
+        <p class="copyright">&copy; 2026 Sky. All rights reserved.</p>
+    </footer>
+    <script>
+    (function(){
+        var root=document.documentElement, t=document.getElementById('themeToggle');
+        t.addEventListener('click',function(){var n=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',n);localStorage.setItem('theme',n);});
+        var bar=document.getElementById('progressBar');
+        function s(){var h=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(h>0?(window.scrollY/h)*100:0)+'%';document.querySelector('.nav-container').classList.toggle('scrolled',window.scrollY>10);}
+        window.addEventListener('scroll',s,{passive:true});s();
+    })();
+    </script>
+</body>
+</html>
