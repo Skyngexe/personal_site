@@ -1089,7 +1089,7 @@ footer .copyright { white-space: nowrap; }
     font-family: var(--serif-body);
     font-size: 1.2rem;
     line-height: 1.85;
-    color: #322b25;
+    color: var(--ink);
 }
 .prose p { margin-bottom: 1.8rem; }
 .prose p:first-of-type::first-letter {
@@ -1146,9 +1146,6 @@ nav ul li a::after {
 nav ul li a:hover::after { transform: scaleX(1); transform-origin: left; }
 
 /* in dusk mode, let the oxblood accents glow a touch */
-[data-theme="dark"] .tree-node--root,
-[data-theme="dark"] .featured .pull,
-[data-theme="dark"] .timeline::before { }
 [data-theme="dark"] .cta-link {
     box-shadow: 0 0 0 transparent;
 }
