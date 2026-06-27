@@ -15,7 +15,7 @@
     <nav class="chapter-rail" id="chapterRail" aria-label="Section navigation">
         <a href="#experience"><span class="dot"></span><span class="label">Experience</span></a>
         <a href="#writing"><span class="dot"></span><span class="label">Writing</span></a>
-        <a href="#interests"><span class="dot"></span><span class="label">Off the Page</span></a>
+        <a href="#interests"><span class="dot"></span><span class="label">Hobbies</span></a>
         <a href="#skills"><span class="dot"></span><span class="label">Skills</span></a>
         <a href="#projects"><span class="dot"></span><span class="label">Work</span></a>
         <a href="#contact"><span class="dot"></span><span class="label">Contact</span></a>
@@ -27,7 +27,7 @@
                 <ul>
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#writing">Writing</a></li>
-                    <li><a href="#interests">Off the Page</a></li>
+                    <li><a href="#interests">Hobbies</a></li>
                     <li><a href="#skills">Skills</a></li>
                     <li><a href="#projects">Work</a></li>
                     <li><a href="#contact">Contact</a></li>
@@ -41,9 +41,12 @@
     </div>
 
     <header id="hero">
+        <canvas class="hero-constellation" id="heroCanvas" aria-hidden="true"></canvas>
+        <figure class="hero-portrait">
+            <img src="me.jpg" alt="Sky — portrait" width="96" height="96" loading="eager" decoding="async">
+        </figure>
         <span class="hero-kicker">Essays, poems &amp; small fictions</span>
-        <h1 class="hero-name">Sk<em>y</em></h1>
-        <p class="hero-greeting" id="heroGreeting">&nbsp;</p>
+        <h1 class="hero-name"><em>S</em>ky</h1>
         <p class="hero-verse">
             <span>To live is to experience,</span>
             <span>to do all that life has to offer,</span>
@@ -65,13 +68,13 @@
                 <span class="section-label"><span class="num">01</span> Experience</span>
                 <p class="section-note">Where I've put the engineering to work — from big tech to a bank to a game studio.</p>
             </div>
-            <div class="timeline">
+            <div class="timeline stagger">
                 <div class="tl-item">
                     <div class="tl-head">
-                        <span class="tl-role">Applied AI Engineer <span class="tl-org">· AWS</span></span>
+                        <span class="tl-role">Applied AI Engineer <span class="tl-org">· Amazon Web Services (AWS)</span></span>
                         <span class="tl-when">Mar 2026 — Present</span>
                     </div>
-                    <p>Go-To-Market Engineering. Architected an internal multi-agent framework running concurrent sub-agents for data extraction, report generation, and a browser-controlling web-scraping pipeline that autonomously qualifies sales leads. Shipped automation tools over MCP servers and Amazon Q so non-technical teams could self-serve complex Excel field-mapping, and built a self-improving meta-agent testbed to benchmark prompt robustness.</p>
+                    <p>Architected a high-scalability multi-agent framework using concurrent sub-agents to parallelize complex data extraction, automated reporting, and intelligent web-scraping workflows. Developing an automated autoresearch framework to streamline and scale quantitative research, and engineered custom automation tools via Model Context Protocol (MCP) servers, Amazon Q, and advanced tool-calling to build self-service data-mapping pipelines that remove manual spreadsheet bottlenecks. Built a self-improving meta-agent simulation testbed to benchmark prompt robustification and model accuracy under distribution shifts — and served as a technical representative presenting complex AI architectures to enterprise clients and executive stakeholders.</p>
                 </div>
                 <div class="tl-item">
                     <div class="tl-head">
@@ -316,9 +319,9 @@
 
         <section id="interests" class="reveal-up">
             <div class="section-head">
-                <span class="section-label"><span class="num">03</span> Off the Page</span>
+                <span class="section-label"><span class="num">03</span> Hobbies</span>
             </div>
-            <div class="interests-groups">
+            <div class="interests-groups stagger">
                 <div class="interest-group">
                     <span class="interest-group-label">Always doing</span>
                     <div class="interests-list">
@@ -432,7 +435,7 @@
                 <span class="section-label"><span class="num">05</span> The Work</span>
                 <p class="section-note">What I build outside the day job — research, tools, and systems taken from idea to something that runs.</p>
             </div>
-            <div class="grid">
+            <div class="grid stagger">
                 <div class="card">
                     <h3>Semantic Caching for LLMs.</h3>
                     <p>Final Year Project. Trained a query classification model and developed an adaptive hybrid retrieval mechanism — boosting cache hit rate by 43% and F1 score by 10%.</p>
@@ -557,15 +560,13 @@
         // ---- Living sky: tint to the visitor's local time of day ----
         (function(){
             const h = new Date().getHours();
-            let band = 'day', hello = 'Good afternoon.';
-            if (h < 6)        { band = 'night'; hello = 'You’re up late.'; }
-            else if (h < 11)  { band = 'dawn';  hello = 'Good morning.'; }
-            else if (h < 17)  { band = 'day';   hello = 'Good afternoon.'; }
-            else if (h < 21)  { band = 'dusk';  hello = 'Good evening.'; }
-            else              { band = 'night'; hello = 'Good night.'; }
+            let band = 'day';
+            if (h < 6)        { band = 'night'; }
+            else if (h < 11)  { band = 'dawn';  }
+            else if (h < 17)  { band = 'day';   }
+            else if (h < 21)  { band = 'dusk';  }
+            else              { band = 'night'; }
             root.setAttribute('data-time', band);
-            const g = document.getElementById('heroGreeting');
-            if (g) g.textContent = hello + ' Welcome in.';
         })();
 
         // ---- Magnetic buttons ----
@@ -588,6 +589,17 @@
             });
         }, { threshold: 0.12 });
         document.querySelectorAll('.reveal-up').forEach(el => revealObs.observe(el));
+
+        // ---- Staggered child reveals (timeline, interests, work, skill tree) ----
+        document.querySelectorAll('.stagger').forEach(group => {
+            Array.from(group.children).forEach((child, i) => child.style.setProperty('--i', i));
+        });
+        const staggerObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) { e.target.classList.add('in'); staggerObs.unobserve(e.target); }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.stagger, .skill-tree').forEach(el => staggerObs.observe(el));
 
         // ---- Chapter rail: show after hero + scrollspy ----
         const rail = document.getElementById('chapterRail');
@@ -615,6 +627,128 @@
         }
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
+
+        // ---- A living sky behind the hero: drifting, twinkling stars + shooting stars ----
+        (function(){
+            const canvas = document.getElementById('heroCanvas');
+            if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const ctx = canvas.getContext('2d');
+            const hero = document.getElementById('hero');
+            let w, h, dpr, stars, shooting, raf, t = 0;
+            const mouse = { x: -9999, y: -9999, on: false };
+
+            // star colour follows the time-of-day sky (warm at dawn/dusk, cool at night)
+            function skyRGB(){
+                const c = getComputedStyle(document.documentElement).getPropertyValue('--sky-orb').trim();
+                const m = c.match(/[\d.]+/g);
+                return (m && m.length >= 3) ? m.slice(0, 3).map(n => Math.round(+n)).join(',') : '255,244,214';
+            }
+            let rgb = skyRGB();
+
+            // deterministic pseudo-random so the field is stable across resizes
+            function rnd(i, salt){ const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453; return x - Math.floor(x); }
+
+            function size(){
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+                w = hero.offsetWidth; h = hero.offsetHeight;
+                canvas.width = w * dpr; canvas.height = h * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                const count = Math.round(Math.min(150, (w * h) / 7000));
+                stars = Array.from({ length: count }, (_, i) => ({
+                    x: rnd(i, 1) * w,
+                    y: rnd(i, 2) * h,
+                    r: 0.5 + rnd(i, 3) * 1.6,          // size → also drives parallax depth
+                    drift: 0.04 + rnd(i, 4) * 0.16,    // slow upward float
+                    sway: rnd(i, 5) * Math.PI * 2,     // phase for gentle horizontal sway
+                    tw: 0.6 + rnd(i, 6) * 2.4,         // twinkle speed
+                    phase: rnd(i, 7) * Math.PI * 2
+                }));
+                shooting = [];
+            }
+
+            function spawnShooting(){
+                // start somewhere in the upper band, streak down-left to down-right
+                const fromLeft = rnd(t, 9) > 0.5;
+                shooting.push({
+                    x: fromLeft ? -40 : w + 40,
+                    y: h * (0.05 + rnd(t, 11) * 0.4),
+                    vx: (fromLeft ? 1 : -1) * (6 + rnd(t, 12) * 4),
+                    vy: 2.2 + rnd(t, 13) * 1.8,
+                    life: 0,
+                    max: 60 + rnd(t, 14) * 30
+                });
+            }
+
+            function tick(){
+                t += 1;
+                ctx.clearRect(0, 0, w, h);
+
+                for (const s of stars){
+                    s.y -= s.drift;                                  // float up
+                    s.x += Math.sin((t * 0.004) + s.sway) * 0.12;    // gentle sway
+                    if (s.y < -2){ s.y = h + 2; s.x = rnd(s.sway + t, 8) * w; }
+
+                    // cursor parallax: bigger (nearer) stars shift more
+                    let ox = 0, oy = 0;
+                    if (mouse.on){
+                        ox = (mouse.x - w / 2) * 0.01 * s.r;
+                        oy = (mouse.y - h / 2) * 0.01 * s.r;
+                    }
+
+                    const twinkle = 0.45 + 0.55 * Math.abs(Math.sin(t * 0.02 * s.tw + s.phase));
+                    ctx.beginPath();
+                    ctx.arc(s.x + ox, s.y + oy, s.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${rgb},${twinkle * 0.85})`;
+                    ctx.shadowColor = `rgba(${rgb},${twinkle})`;
+                    ctx.shadowBlur = s.r * 3;
+                    ctx.fill();
+                }
+                ctx.shadowBlur = 0;
+
+                // occasional shooting star
+                if (shooting.length < 2 && rnd(t, 15) > 0.992) spawnShooting();
+                for (let i = shooting.length - 1; i >= 0; i--){
+                    const sh = shooting[i];
+                    sh.x += sh.vx; sh.y += sh.vy; sh.life += 1;
+                    const fade = 1 - sh.life / sh.max;
+                    if (fade <= 0 || sh.y > h + 40){ shooting.splice(i, 1); continue; }
+                    const tailX = sh.x - sh.vx * 4, tailY = sh.y - sh.vy * 4;
+                    const grad = ctx.createLinearGradient(sh.x, sh.y, tailX, tailY);
+                    grad.addColorStop(0, `rgba(${rgb},${fade})`);
+                    grad.addColorStop(1, `rgba(${rgb},0)`);
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = 1.4;
+                    ctx.beginPath();
+                    ctx.moveTo(sh.x, sh.y); ctx.lineTo(tailX, tailY);
+                    ctx.stroke();
+                }
+
+                raf = requestAnimationFrame(tick);
+            }
+
+            hero.addEventListener('pointermove', e => {
+                const r = hero.getBoundingClientRect();
+                mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.on = true;
+            });
+            hero.addEventListener('pointerleave', () => { mouse.on = false; });
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                setTimeout(() => { rgb = skyRGB(); }, 50);
+            });
+
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(size, 150);
+            });
+
+            size();
+            tick();
+            // pause when the hero scrolls out of view
+            new IntersectionObserver(([e]) => {
+                if (e.isIntersecting) { if (!raf) tick(); }
+                else { cancelAnimationFrame(raf); raf = null; }
+            }, { threshold: 0 }).observe(hero);
+        })();
 
     })();
     </script>
