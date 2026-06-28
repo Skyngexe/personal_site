@@ -39,7 +39,7 @@ titles = [
     'Beyond the hype and desperation of technological acceleration',
 ]
 
-# --- Clean, consolidated taxonomy (7 categories, no overlaps) ---
+# --- Clean, consolidated taxonomy (8 categories, no overlaps) ---
 CATEGORY_MAP = {
     'Preface': 'Philosophy & Reflection',
     'Breakfast Ritual': 'Rituals & Everyday',
@@ -63,7 +63,7 @@ CATEGORY_MAP = {
     'The last semester, there goes my training wheels': 'Philosophy & Reflection',
     'Form over functionality': 'Culture & Society',
     'The anatomy of pretentious culture': 'Culture & Society',
-    'Attention is all we need': 'Culture & Society',
+    'Attention is all we need': 'Tech & Society',
     'Vitiligo': 'Poems',
     'We should be freakier': 'Poems',
     'La Vache': 'Poems',
@@ -74,7 +74,7 @@ CATEGORY_MAP = {
     'The view from (almost) fullway down': 'Philosophy & Reflection',
     'Glitters of thy eyes': 'Philosophy & Reflection',
     'Fortuity is the beauty of life': 'Philosophy & Reflection',
-    'Beyond the hype and desperation of technological acceleration': 'Culture & Society',
+    'Beyond the hype and desperation of technological acceleration': 'Tech & Society',
 }
 
 # Order categories should appear in the filter bar
@@ -83,6 +83,7 @@ CATEGORY_ORDER = [
     'Philosophy & Reflection',
     'Relationships',
     'Rituals & Everyday',
+    'Tech & Society',
     'Culture & Society',
     'Poems',
     'Short Stories',
