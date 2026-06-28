@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond the hype and desperation of technological acceleration — Sky</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%238a3324' fill-opacity='0.08' stroke='%238a3324' stroke-width='2'/><circle cx='50' cy='50' r='9' fill='%238a3324'/></svg>">
+    <script>(function(){var t=localStorage.getItem('theme')||((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="nav-container"><nav>
+        <a href="../index.html" class="logo">Sky</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle day / dusk mode" title="Toggle day / dusk">
+            <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M1.8 12h2.4M19.8 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
+            <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        </button>
+    </nav></div>
+    <main>
+        <article class="essay-body">
+            <a href="../index.html#writing" class="back-link">&larr; All writing</a>
+            <span class="meta">Culture & Society</span>
+            <h1>Beyond the hype and desperation of technological acceleration</h1>
+            <div class="prose"><p>Technology is accelerating at an unprecedented pace, spinning and whirling like an enormous swirl, it keeps strengthening and expanding, slowly devouring the entire humanity. When I started writing this, Opus 4.7 just dropped, at revision it was Fable 5. Major labs are releasing models interleavingly, which means that we are getting a new model claiming to be smarter, faster, and occasionally cheaper every week.</p>
+<p>A swirl has a well-known property where the center flows much faster, here the center is nothing but human’s infinite curiosity, mixed with the desire for power and control, manifesting in the form of compute and metered intelligence. This is the revolution of our time that we are witnessing.</p>
+<p>There seems to be infinite possibilities of what one can achieve with this piece of technology, cultivating a surreal amount of hype, further fuelled by complementary narratives from AI labs, technology companies, investors, beneficiaries, etc. There’s a saying that “Software is solved”, referring to the ability of agents autonomously conducting market research, scoping, designing, implementing, marketing and monitoring a product continuously. This significantly lowered the barrier to entrance into SaaS, leading to the explosion of software products. Beyond software, it also ignites a new paradigm of research where scientists employ agent fleets to conduct experiments at massive scale and efficiency. Some believe this is the key to the betterment of humanity, but also to unimaginable wealth.</p>
+<p>On the other side of the hype, there stand the flags of concerns, jobpocalypse, diminished intelligence due to over reliance, fear of permanent underclass, stadium of power struggle, loss of identity, the list goes on. All of these are valid concerns, and it should become a motivator for us to keep learning about this technology.</p>
+<p>My humble take is to take the AI pill, and shallow it with optimistic cautiousness, which can be done by learning about transformer, model training & evaluation and the surrounding ecosystem. Be critical of what you read and be open-minded, update your prior belief when new information arrives.</p>
+<p>No one knows where humanity will be heading once we get out of this swirl. While an individual itself cannot steer how the future unfolds, with enough awareness, a collective crowd of informed citizens can help nudge the direction to a potentially better destination.</p>
+</div>
+        </article>
+    </main>
+    <footer>
+        <p class="colophon">Built with <strong>Claude Code</strong>.</p>
+        <p class="copyright">&copy; 2026 Sky. All rights reserved.</p>
+    </footer>
+    <script>
+    (function(){
+        var root=document.documentElement, t=document.getElementById('themeToggle');
+        t.addEventListener('click',function(){var n=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',n);localStorage.setItem('theme',n);});
+        var bar=document.getElementById('progressBar');
+        function s(){var h=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(h>0?(window.scrollY/h)*100:0)+'%';document.querySelector('.nav-container').classList.toggle('scrolled',window.scrollY>10);}
+        window.addEventListener('scroll',s,{passive:true});s();
+    })();
+    </script>
+</body>
+</html>

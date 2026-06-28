@@ -36,6 +36,7 @@ titles = [
     'The view from (almost) fullway down',
     'Glitters of thy eyes',
     'Fortuity is the beauty of life',
+    'Beyond the hype and desperation of technological acceleration',
 ]
 
 # --- Clean, consolidated taxonomy (7 categories, no overlaps) ---
@@ -73,6 +74,7 @@ CATEGORY_MAP = {
     'The view from (almost) fullway down': 'Philosophy & Reflection',
     'Glitters of thy eyes': 'Philosophy & Reflection',
     'Fortuity is the beauty of life': 'Philosophy & Reflection',
+    'Beyond the hype and desperation of technological acceleration': 'Culture & Society',
 }
 
 # Order categories should appear in the filter bar

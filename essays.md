@@ -276,3 +276,16 @@ Humans wrestle with fortuity our whole life, even before our birth. Had our pare
 The word fortuity itself is neutral, for it doesn’t concern the desirability of the outcome, it merely describes the fact that the universe itself is the collective spirals of ravelling fortuities that’s beyond human understanding. 
 
 For we are who we are today perchance, we befriended those perchance, you are reading this perchance, that’s the beauty of life. 
+
+Beyond the hype and desperation of technological acceleration
+Technology is accelerating at an unprecedented pace, spinning and whirling like an enormous swirl, it keeps strengthening and expanding, slowly devouring the entire humanity. When I started writing this, Opus 4.7 just dropped, at revision it was Fable 5. Major labs are releasing models interleavingly, which means that we are getting a new model claiming to be smarter, faster, and occasionally cheaper every week.
+
+A swirl has a well-known property where the center flows much faster, here the center is nothing but human’s infinite curiosity, mixed with the desire for power and control, manifesting in the form of compute and metered intelligence. This is the revolution of our time that we are witnessing.
+
+There seems to be infinite possibilities of what one can achieve with this piece of technology, cultivating a surreal amount of hype, further fuelled by complementary narratives from AI labs, technology companies, investors, beneficiaries, etc. There’s a saying that “Software is solved”, referring to the ability of agents autonomously conducting market research, scoping, designing, implementing, marketing and monitoring a product continuously. This significantly lowered the barrier to entrance into SaaS, leading to the explosion of software products. Beyond software, it also ignites a new paradigm of research where scientists employ agent fleets to conduct experiments at massive scale and efficiency. Some believe this is the key to the betterment of humanity, but also to unimaginable wealth.
+
+On the other side of the hype, there stand the flags of concerns, jobpocalypse, diminished intelligence due to over reliance, fear of permanent underclass, stadium of power struggle, loss of identity, the list goes on. All of these are valid concerns, and it should become a motivator for us to keep learning about this technology.
+
+My humble take is to take the AI pill, and shallow it with optimistic cautiousness, which can be done by learning about transformer, model training & evaluation and the surrounding ecosystem. Be critical of what you read and be open-minded, update your prior belief when new information arrives.
+
+No one knows where humanity will be heading once we get out of this swirl. While an individual itself cannot steer how the future unfolds, with enough awareness, a collective crowd of informed citizens can help nudge the direction to a potentially better destination.
