@@ -289,3 +289,30 @@ On the other side of the hype, there stand the flags of concerns, jobpocalypse, 
 My humble take is to take the AI pill, and shallow it with optimistic cautiousness, which can be done by learning about transformer, model training & evaluation and the surrounding ecosystem. Be critical of what you read and be open-minded, update your prior belief when new information arrives.
 
 No one knows where humanity will be heading once we get out of this swirl. While an individual itself cannot steer how the future unfolds, with enough awareness, a collective crowd of informed citizens can help nudge the direction to a potentially better destination.
+
+Everybody hates their own country
+Everybody hates their own country,
+
+until the fruits of culture start withering on their trees,
+
+or until other travellers ask for advisory,
+
+whether to visit their libraries.
+
+Then suddenly they become a patriot,
+
+emitting radiance,
+
+abient to the preceding urgency to leave the radius,
+
+and start advocating for their city’s paralyzing gradient.
+
+In a foreign land, the travellers roam the museums, the mountains and the temples,
+
+by doing so,
+
+it temporarily breaks the perpetual cycle of mundanity,
+
+to restore the capacity,
+
+to love their homeland lavishly.

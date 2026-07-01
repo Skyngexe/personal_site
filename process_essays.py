@@ -37,6 +37,7 @@ titles = [
     'Glitters of thy eyes',
     'Fortuity is the beauty of life',
     'Beyond the hype and desperation of technological acceleration',
+    'Everybody hates their own country',
 ]
 
 # --- Clean, consolidated taxonomy (8 categories, no overlaps) ---
@@ -75,6 +76,7 @@ CATEGORY_MAP = {
     'Glitters of thy eyes': 'Philosophy & Reflection',
     'Fortuity is the beauty of life': 'Philosophy & Reflection',
     'Beyond the hype and desperation of technological acceleration': 'Tech & Society',
+    'Everybody hates their own country': 'Culture & Society',
 }
 
 # Order categories should appear in the filter bar
