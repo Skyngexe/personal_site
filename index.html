@@ -320,6 +320,12 @@
                     <p>Technology is accelerating at an unprecedented pace, spinning and whirling like an enormous swirl, it keeps strengthening and expanding, slowly devouring the entire humanity.…</p>
                     <a href="essays/beyond-the-hype-and-desperation-of-technological-acceleration.html" class="card-link">Continue reading &rarr;</a>
                 </article>
+                <article class="card" data-category="Culture & Society" data-words="86">
+                    <span class="card-cat">Culture & Society</span>
+                    <h3>Everybody hates their own country.</h3>
+                    <p>Everybody hates their own country, until the fruits of culture start withering on their trees, or until other travellers ask for advisory, whether to…</p>
+                    <a href="essays/everybody-hates-their-own-country.html" class="card-link">Continue reading &rarr;</a>
+                </article>
             </div>
         </section>
 
@@ -634,16 +640,16 @@
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
 
-        // ---- A living sky behind the hero: drifting, twinkling stars + shooting stars ----
+        // ---- Ambient background canvas: light sky above, heavy ocean below ----
         (function(){
             const canvas = document.getElementById('heroCanvas');
             if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             const ctx = canvas.getContext('2d');
-            const hero = document.getElementById('hero');
-            let w, h, dpr, stars, shooting, raf, t = 0;
+            let w, h, dpr, particles = [], raf = null, t = 0;
             const mouse = { x: -9999, y: -9999, on: false };
+            let scrollProgress = 0;
+            let allowMotion = true;
 
-            // star colour follows the time-of-day sky (warm at dawn/dusk, cool at night)
             function skyRGB(){
                 const c = getComputedStyle(document.documentElement).getPropertyValue('--sky-orb').trim();
                 const m = c.match(/[\d.]+/g);
@@ -651,92 +657,299 @@
             }
             let rgb = skyRGB();
 
-            // deterministic pseudo-random so the field is stable across resizes
             function rnd(i, salt){ const x = Math.sin(i * 12.9898 + salt * 78.233) * 43758.5453; return x - Math.floor(x); }
+            const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+            const lerp = (a, b, p) => a + (b - a) * p;
+
+            function updateScrollProgress(){
+                const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+                scrollProgress = clamp(window.scrollY / max, 0, 1);
+            }
+
+            function updateMotionState(){
+                const atTop = window.scrollY < 24;
+                allowMotion = atTop;
+                if (allowMotion) {
+                    if (!raf) tick();
+                } else if (raf) {
+                    cancelAnimationFrame(raf);
+                    raf = null;
+                    renderFrame();
+                } else {
+                    renderFrame();
+                }
+            }
+
+            function renderFrame(){
+                ctx.clearRect(0, 0, w, h);
+                drawSkyOceanAmbient();
+            }
+
+            function buildParticles(){
+                const density = Math.max(34, Math.round((w * h) / 14000));
+                particles = Array.from({ length: density }, (_, i) => ({
+                    x: rnd(i, 1) * w,
+                    y: rnd(i, 2) * h,
+                    r: 0.8 + rnd(i, 3) * 2.2,
+                    vx: (rnd(i, 4) - 0.5) * 0.5,
+                    vy: (rnd(i, 5) - 0.5) * 0.5,
+                    p: rnd(i, 6) * Math.PI * 2,
+                    s: 0.3 + rnd(i, 7) * 1.6
+                }));
+            }
 
             function size(){
                 dpr = Math.min(window.devicePixelRatio || 1, 2);
-                w = hero.offsetWidth; h = hero.offsetHeight;
-                canvas.width = w * dpr; canvas.height = h * dpr;
+                w = window.innerWidth;
+                h = window.innerHeight;
+                canvas.width = w * dpr;
+                canvas.height = h * dpr;
                 ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-                const count = Math.round(Math.min(150, (w * h) / 7000));
-                stars = Array.from({ length: count }, (_, i) => ({
-                    x: rnd(i, 1) * w,
-                    y: rnd(i, 2) * h,
-                    r: 0.5 + rnd(i, 3) * 1.6,          // size → also drives parallax depth
-                    drift: 0.04 + rnd(i, 4) * 0.16,    // slow upward float
-                    sway: rnd(i, 5) * Math.PI * 2,     // phase for gentle horizontal sway
-                    tw: 0.6 + rnd(i, 6) * 2.4,         // twinkle speed
-                    phase: rnd(i, 7) * Math.PI * 2
-                }));
-                shooting = [];
+                buildParticles();
             }
 
-            function spawnShooting(){
-                // start somewhere in the upper band, streak down-left to down-right
-                const fromLeft = rnd(t, 9) > 0.5;
-                shooting.push({
-                    x: fromLeft ? -40 : w + 40,
-                    y: h * (0.05 + rnd(t, 11) * 0.4),
-                    vx: (fromLeft ? 1 : -1) * (6 + rnd(t, 12) * 4),
-                    vy: 2.2 + rnd(t, 13) * 1.8,
-                    life: 0,
-                    max: 60 + rnd(t, 14) * 30
-                });
-            }
+            function drawSkyOceanAmbient(){
+                const cx = w / 2;
+                const mox = mouse.on ? (mouse.x - cx) * 0.02 : 0;
+                const easedScroll = scrollProgress * scrollProgress * (3 - 2 * scrollProgress);
+                const split = h * lerp(0.79, 0.38, easedScroll);
 
-            function tick(){
-                t += 1;
-                ctx.clearRect(0, 0, w, h);
+                // color story: amber sky to burnt-orange depth
+                const skyTop = `rgba(242, 168, 102, ${lerp(0.28, 0.16, easedScroll)})`;
+                const skyMid = `rgba(228, 136, 82, ${lerp(0.24, 0.12, easedScroll)})`;
+                const skyGlow = `rgba(255, 214, 162, ${lerp(0.14, 0.08, easedScroll)})`;
+                const seaUpper = `rgba(170, 96, 60, ${lerp(0.12, 0.24, easedScroll)})`;
+                const seaMid = `rgba(116, 67, 45, ${lerp(0.18, 0.3, easedScroll)})`;
+                const seaDeep = `rgba(70, 42, 32, ${lerp(0.22, 0.36, easedScroll)})`;
 
-                for (const s of stars){
-                    s.y -= s.drift;                                  // float up
-                    s.x += Math.sin((t * 0.004) + s.sway) * 0.12;    // gentle sway
-                    if (s.y < -2){ s.y = h + 2; s.x = rnd(s.sway + t, 8) * w; }
+                // sky (light): soft gradient + floating motes
+                const skyGrad = ctx.createLinearGradient(0, 0, 0, split);
+                skyGrad.addColorStop(0, skyTop);
+                skyGrad.addColorStop(0.6, skyMid);
+                skyGrad.addColorStop(1, skyGlow);
+                ctx.fillStyle = skyGrad;
+                ctx.fillRect(0, 0, w, split);
 
-                    // cursor parallax: bigger (nearer) stars shift more
-                    let ox = 0, oy = 0;
-                    if (mouse.on){
-                        ox = (mouse.x - w / 2) * 0.01 * s.r;
-                        oy = (mouse.y - h / 2) * 0.01 * s.r;
-                    }
-
-                    const twinkle = 0.45 + 0.55 * Math.abs(Math.sin(t * 0.02 * s.tw + s.phase));
+                for (const p of particles.slice(0, Math.floor(particles.length * 0.6))) {
+                    const tw = 0.35 + 0.65 * Math.abs(Math.sin(t * 0.02 * p.s + p.p));
+                    const px = (p.x + Math.sin(t * 0.01 + p.p) * 10 + mox * 0.2 + w) % w;
+                    const py = (p.y + t * -0.08 + h) % (split + h * 0.04);
+                    ctx.fillStyle = `rgba(${rgb},${tw * 0.68})`;
                     ctx.beginPath();
-                    ctx.arc(s.x + ox, s.y + oy, s.r, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(${rgb},${twinkle * 0.85})`;
-                    ctx.shadowColor = `rgba(${rgb},${twinkle})`;
-                    ctx.shadowBlur = s.r * 3;
+                    ctx.arc(px, py, 0.9 + p.r * 0.55, 0, Math.PI * 2);
                     ctx.fill();
                 }
-                ctx.shadowBlur = 0;
 
-                // occasional shooting star
-                if (shooting.length < 2 && rnd(t, 15) > 0.992) spawnShooting();
-                for (let i = shooting.length - 1; i >= 0; i--){
-                    const sh = shooting[i];
-                    sh.x += sh.vx; sh.y += sh.vy; sh.life += 1;
-                    const fade = 1 - sh.life / sh.max;
-                    if (fade <= 0 || sh.y > h + 40){ shooting.splice(i, 1); continue; }
-                    const tailX = sh.x - sh.vx * 4, tailY = sh.y - sh.vy * 4;
-                    const grad = ctx.createLinearGradient(sh.x, sh.y, tailX, tailY);
-                    grad.addColorStop(0, `rgba(${rgb},${fade})`);
-                    grad.addColorStop(1, `rgba(${rgb},0)`);
-                    ctx.strokeStyle = grad;
-                    ctx.lineWidth = 1.4;
+                // ocean (heavy): dark gradient + layered wave bands
+                const seaGrad = ctx.createLinearGradient(0, split - h * 0.11, 0, h);
+                seaGrad.addColorStop(0, seaUpper);
+                seaGrad.addColorStop(0.5, seaMid);
+                seaGrad.addColorStop(1, seaDeep);
+                ctx.fillStyle = seaGrad;
+                ctx.fillRect(0, split - h * 0.11, w, h - (split - h * 0.11));
+
+                const waveBase = split + h * 0.04;
+                for (let layer = 0; layer < 4; layer++) {
+                    const amp = 7 + layer * 5;
+                    const freq = 0.007 + layer * 0.0018;
+                    const speed = 0.015 - layer * 0.003;
                     ctx.beginPath();
-                    ctx.moveTo(sh.x, sh.y); ctx.lineTo(tailX, tailY);
+                    ctx.moveTo(0, h);
+                    for (let x = 0; x <= w; x += 8) {
+                        const y = waveBase + layer * 28 + Math.sin(x * freq + t * speed + layer) * amp;
+                        ctx.lineTo(x, y);
+                    }
+                    ctx.lineTo(w, h);
+                    ctx.closePath();
+                    ctx.fillStyle = `rgba(${98 + layer * 12}, ${58 + layer * 8}, ${42 + layer * 4}, ${0.14 + layer * 0.07})`;
+                    ctx.fill();
+                }
+
+                // subtle foam drift on horizon to blend sky and sea naturally
+                ctx.fillStyle = 'rgba(244,196,140,0.24)';
+                for (let i = 0; i < 34; i++) {
+                    const p = particles[i];
+                    const x = (p.x + Math.sin(t * 0.01 + p.p) * 14 + mox * 0.12 + w) % w;
+                    const y = split + Math.sin((x * 0.012) + t * 0.014 + p.p) * 7;
+                    ctx.fillRect(x, y, 2.2, 1.2);
+                }
+
+                // symbolic flying pocket watch: weight of time carried through air
+                const travel = (Math.sin(t * 0.008) + 1) / 2;
+                const tx = w * (0.18 + travel * 0.66) + mox * 0.18;
+                const tySky = split * 0.34;
+                const tySea = split + h * 0.34;
+                const descent = clamp(easedScroll * 4.5, 0, 1);
+                const ty = lerp(tySky, tySea, descent) + Math.sin(t * 0.018 + travel * Math.PI * 2) * 4;
+                const rot = Math.sin(t * 0.008 + travel * 1.8) * 0.16;
+                const flap = Math.sin(t * 0.09 + travel * Math.PI * 2) * 4.4;
+                ctx.save();
+                ctx.translate(tx, ty);
+                ctx.rotate(rot);
+
+                // glow for readability across changing tones
+                const glow = ctx.createRadialGradient(0, 0, 0, 0, 0, 24);
+                glow.addColorStop(0, 'rgba(247, 197, 128, 0.34)');
+                glow.addColorStop(1, 'rgba(247, 197, 128, 0)');
+                ctx.fillStyle = glow;
+                ctx.beginPath();
+                ctx.arc(0, 0, 24, 0, Math.PI * 2);
+                ctx.fill();
+
+                // one set of large butterfly-like wings
+                const wingTop = -6.8 - flap * 0.7;
+                const wingBottom = 7.2 + flap * 0.45;
+
+                // left upper lobe
+                ctx.fillStyle = 'rgba(246,189,128,0.44)';
+                ctx.beginPath();
+                ctx.moveTo(-8.6, -1.2);
+                ctx.quadraticCurveTo(-36, -36 - flap * 1.2, -63, wingTop);
+                ctx.quadraticCurveTo(-34, -3.6 - flap * 0.4, -8.6, -1.2);
+                ctx.closePath();
+                ctx.fill();
+
+                // left lower lobe
+                ctx.fillStyle = 'rgba(237,156,96,0.36)';
+                ctx.beginPath();
+                ctx.moveTo(-8.2, 1.2);
+                ctx.quadraticCurveTo(-30, 22 + flap * 0.75, -52, wingBottom + 3.8);
+                ctx.quadraticCurveTo(-28, 9.4 + flap * 0.28, -8.2, 1.2);
+                ctx.closePath();
+                ctx.fill();
+
+                // right upper lobe
+                ctx.fillStyle = 'rgba(246,189,128,0.44)';
+                ctx.beginPath();
+                ctx.moveTo(8.6, -1.2);
+                ctx.quadraticCurveTo(36, -36 - flap * 1.2, 63, wingTop);
+                ctx.quadraticCurveTo(34, -3.6 - flap * 0.4, 8.6, -1.2);
+                ctx.closePath();
+                ctx.fill();
+
+                // right lower lobe
+                ctx.fillStyle = 'rgba(237,156,96,0.36)';
+                ctx.beginPath();
+                ctx.moveTo(8.2, 1.2);
+                ctx.quadraticCurveTo(30, 22 + flap * 0.75, 52, wingBottom + 3.8);
+                ctx.quadraticCurveTo(28, 9.4 + flap * 0.28, 8.2, 1.2);
+                ctx.closePath();
+                ctx.fill();
+
+                // butterfly veins and accent spots
+                ctx.strokeStyle = 'rgba(251,214,154,0.33)';
+                ctx.lineWidth = 0.95;
+                ctx.beginPath();
+                ctx.moveTo(-54, wingTop + 1.6);
+                ctx.quadraticCurveTo(-30, -10.5, -9.2, -1.7);
+                ctx.moveTo(-46, wingBottom + 1.2);
+                ctx.quadraticCurveTo(-26, 7.8, -8.3, 1.9);
+                ctx.moveTo(54, wingTop + 1.6);
+                ctx.quadraticCurveTo(30, -10.5, 9.2, -1.7);
+                ctx.moveTo(46, wingBottom + 1.2);
+                ctx.quadraticCurveTo(26, 7.8, 8.3, 1.9);
+                ctx.stroke();
+
+                ctx.fillStyle = 'rgba(255,222,172,0.24)';
+                ctx.beginPath();
+                ctx.arc(-34, -10 - flap * 0.25, 2.1, 0, Math.PI * 2);
+                ctx.arc(-24, 5.2 + flap * 0.18, 1.7, 0, Math.PI * 2);
+                ctx.arc(34, -10 - flap * 0.25, 2.1, 0, Math.PI * 2);
+                ctx.arc(24, 5.2 + flap * 0.18, 1.7, 0, Math.PI * 2);
+                ctx.fill();
+
+                // chain links
+                ctx.strokeStyle = 'rgba(220,170,110,0.52)';
+                ctx.lineWidth = 1;
+                for (let i = 0; i < 5; i++) {
+                    const lx = -10 - i * 3.2;
+                    const ly = -10 + Math.sin(t * 0.03 + i * 0.8) * 1.4;
+                    ctx.beginPath();
+                    ctx.arc(lx, ly, 1.35, 0, Math.PI * 2);
                     ctx.stroke();
                 }
 
+                // ring
+                ctx.strokeStyle = 'rgba(232,186,124,0.9)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(0, -13.8, 3.8, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // crown
+                ctx.fillStyle = 'rgba(210,160,100,0.9)';
+                ctx.beginPath();
+                ctx.roundRect(-3.2, -11.8, 6.4, 2.8, 1.2);
+                ctx.fill();
+
+                // outer case
+                const caseGrad = ctx.createRadialGradient(-2, -3, 2, 0, 0, 12.4);
+                caseGrad.addColorStop(0, 'rgba(243,198,132,0.95)');
+                caseGrad.addColorStop(0.6, 'rgba(194,144,90,0.93)');
+                caseGrad.addColorStop(1, 'rgba(126,88,56,0.95)');
+                ctx.fillStyle = caseGrad;
+                ctx.beginPath();
+                ctx.arc(0, 0, 12.4, 0, Math.PI * 2);
+                ctx.fill();
+
+                // dial
+                ctx.fillStyle = 'rgba(252,240,220,0.93)';
+                ctx.beginPath();
+                ctx.arc(0, 0, 8.8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // hands
+                const minuteA = t * 0.032 + travel * Math.PI * 2;
+                const hourA = minuteA * 0.45;
+                ctx.strokeStyle = 'rgba(96,64,44,0.86)';
+                ctx.lineWidth = 1.35;
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(hourA) * 3.2, Math.sin(hourA) * 3.2);
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(minuteA) * 5.3, Math.sin(minuteA) * 5.3);
+                ctx.stroke();
+
+                // center pin + highlight
+                ctx.fillStyle = 'rgba(116,78,52,0.9)';
+                ctx.beginPath();
+                ctx.arc(0, 0, 1.1, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255,230,186,0.32)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(-2.8, -2.4, 7.8, Math.PI * 1.03, Math.PI * 1.66);
+                ctx.stroke();
+                ctx.restore();
+
+                // readability veil so text remains comfortable on top
+                const veil = ctx.createLinearGradient(0, 0, 0, h);
+                veil.addColorStop(0, 'rgba(245,239,228,0.16)');
+                veil.addColorStop(0.45, 'rgba(245,239,228,0.08)');
+                veil.addColorStop(1, 'rgba(245,239,228,0.18)');
+                ctx.fillStyle = veil;
+                ctx.fillRect(0, 0, w, h);
+            }
+
+            function tick(){
+                if (!allowMotion) return;
+                t += 1;
+                renderFrame();
                 raf = requestAnimationFrame(tick);
             }
 
-            hero.addEventListener('pointermove', e => {
-                const r = hero.getBoundingClientRect();
-                mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.on = true;
+            window.addEventListener('pointermove', e => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+                mouse.on = true;
             });
-            hero.addEventListener('pointerleave', () => { mouse.on = false; });
+            window.addEventListener('pointerout', () => { mouse.on = false; });
+            window.addEventListener('scroll', () => {
+                updateScrollProgress();
+                updateMotionState();
+                if (!allowMotion) renderFrame();
+            }, { passive: true });
+
             document.getElementById('themeToggle').addEventListener('click', () => {
                 setTimeout(() => { rgb = skyRGB(); }, 50);
             });
@@ -748,12 +961,9 @@
             });
 
             size();
-            tick();
-            // pause when the hero scrolls out of view
-            new IntersectionObserver(([e]) => {
-                if (e.isIntersecting) { if (!raf) tick(); }
-                else { cancelAnimationFrame(raf); raf = null; }
-            }, { threshold: 0 }).observe(hero);
+            updateScrollProgress();
+            updateMotionState();
+            if (!raf) renderFrame();
         })();
 
     })();

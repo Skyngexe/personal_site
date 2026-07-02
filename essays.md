@@ -315,4 +315,4 @@ it temporarily breaks the perpetual cycle of mundanity,
 
 to restore the capacity,
 
-to love their homeland lavishly.
+to love their cities lavishly.
