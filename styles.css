@@ -71,7 +71,7 @@ body::before {
 
 body {
     font-family: var(--serif-body);
-    background-color: transparent;   /* let the living sky show through */
+    background-color: var(--paper);
     color: var(--ink);
     line-height: 1.7;
     font-size: 1.02rem;
@@ -253,21 +253,6 @@ header#hero {
     .hero-portrait img { transition: none; }
 }
 
-/* generative canvas as an ambient site background */
-.hero-constellation {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0;
-    animation: skyIn 2.4s ease forwards 0.4s;
-}
-@media (prefers-reduced-motion: reduce) {
-    .hero-constellation { display: none; }
-}
-
 /* the giant signature name */
 .hero-name {
     font-family: var(--serif-display);
@@ -329,83 +314,6 @@ header#hero {
     0%, 100% { transform: scaleX(0.4); opacity: 0.5; }
     50%      { transform: scaleX(1);   opacity: 1; }
 }
-
-/* ---------- The living sky (time-of-day) ---------- */
-/* A full-bleed fixed gradient that tints to the visitor's local time.
-   Sits behind everything; the paper grain and content read on top. */
-.sky-canvas {
-    position: fixed;
-    inset: 0;
-    z-index: -2;
-    pointer-events: none;
-    background:
-        radial-gradient(120% 80% at 78% 8%,  var(--sky-1), transparent 60%),
-        radial-gradient(120% 90% at 18% 0%,  var(--sky-2), transparent 55%),
-        linear-gradient(180deg, var(--sky-3) 0%, var(--paper) 58%);
-    opacity: 0;
-    animation: skyIn 2s ease forwards 0.2s;
-    transition: background 1.2s ease;
-}
-/* a soft sun/moon disc that drifts */
-.sky-canvas::after {
-    content: '';
-    position: absolute;
-    top: 12vh;
-    right: 16vw;
-    width: clamp(120px, 18vw, 240px);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--sky-orb) 0%, transparent 70%);
-    filter: blur(6px);
-    animation: orbDrift 26s ease-in-out infinite;
-}
-@keyframes skyIn { to { opacity: 1; } }
-@keyframes orbDrift {
-    0%, 100% { transform: translate(0, 0); }
-    50%      { transform: translate(-3vw, 3vh); }
-}
-
-/* Default (day) sky tints — overridden per time of day on <html data-time> */
-:root {
-    --sky-1: rgba(169, 130, 60, 0.10);
-    --sky-2: rgba(138, 51, 36, 0.06);
-    --sky-3: rgba(251, 247, 239, 0.9);
-    --sky-orb: rgba(255, 244, 214, 0.55);
-}
-[data-time="dawn"] {
-    --sky-1: rgba(226, 142, 96, 0.22);
-    --sky-2: rgba(176, 122, 158, 0.14);
-    --sky-3: rgba(250, 240, 226, 0.9);
-    --sky-orb: rgba(255, 210, 168, 0.6);
-}
-[data-time="day"] {
-    --sky-1: rgba(150, 178, 196, 0.16);
-    --sky-2: rgba(169, 130, 60, 0.08);
-    --sky-3: rgba(252, 249, 242, 0.92);
-    --sky-orb: rgba(255, 250, 226, 0.55);
-}
-[data-time="dusk"] {
-    --sky-1: rgba(176, 74, 52, 0.26);
-    --sky-2: rgba(120, 70, 120, 0.16);
-    --sky-3: rgba(247, 235, 222, 0.88);
-    --sky-orb: rgba(232, 150, 96, 0.5);
-}
-[data-time="night"] {
-    --sky-1: rgba(70, 86, 130, 0.30);
-    --sky-2: rgba(40, 44, 78, 0.22);
-    --sky-3: rgba(244, 238, 228, 0.85);
-    --sky-orb: rgba(214, 222, 246, 0.5);
-}
-/* In dusk (dark) mode the sky goes deep, regardless of clock */
-[data-theme="dark"] {
-    --sky-1: rgba(120, 64, 48, 0.30);
-    --sky-2: rgba(48, 40, 70, 0.30);
-    --sky-3: rgba(24, 20, 16, 0.7);
-    --sky-orb: rgba(216, 118, 92, 0.30);
-}
-
-/* Legacy hero-sky kept harmless if present */
-.hero-sky { display: none; }
 
 @keyframes fadeUp {
     to { opacity: 1; transform: translateY(0); }
