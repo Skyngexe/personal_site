@@ -38,6 +38,7 @@ titles = [
     'Fortuity is the beauty of life',
     'Beyond the hype and desperation of technological acceleration',
     'Everybody hates their own country',
+    'The flavour of mud and pud',
 ]
 
 # --- Clean, consolidated taxonomy (8 categories, no overlaps) ---
@@ -77,6 +78,7 @@ CATEGORY_MAP = {
     'Fortuity is the beauty of life': 'Philosophy & Reflection',
     'Beyond the hype and desperation of technological acceleration': 'Tech & Society',
     'Everybody hates their own country': 'Culture & Society',
+    'The flavour of mud and pud': 'Poems',
 }
 
 # Order categories should appear in the filter bar

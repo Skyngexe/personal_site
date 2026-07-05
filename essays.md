@@ -316,3 +316,22 @@ it temporarily breaks the perpetual cycle of mundanity,
 to restore the capacity,
 
 to love their cities lavishly.
+
+
+
+The flavour of mud and pud
+Along the trail of wonders and hope,
+
+tunic flowers drink from sweat and dreams,
+
+Seated leisurely in their armless chairs of greens,
+
+From there they observe,
+
+My reluctant step into the mud,
+
+that hugs my feet like a bud,
+
+just so my toe can finally taste,
+
+the muddy flavour of pud.
