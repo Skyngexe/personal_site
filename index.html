@@ -13,6 +13,7 @@
     <div class="progress-bar" id="progressBar"></div>
     <nav class="chapter-rail" id="chapterRail" aria-label="Section navigation">
         <a href="#experience"><span class="dot"></span><span class="label">Experience</span></a>
+        <a href="#research"><span class="dot"></span><span class="label">Research</span></a>
         <a href="#writing"><span class="dot"></span><span class="label">Writing</span></a>
         <a href="#interests"><span class="dot"></span><span class="label">Hobbies</span></a>
         <a href="#skills"><span class="dot"></span><span class="label">Skills</span></a>
@@ -25,6 +26,7 @@
             <div class="nav-right">
                 <ul>
                     <li><a href="#experience">Experience</a></li>
+                    <li><a href="#research">Research</a></li>
                     <li><a href="#writing">Writing</a></li>
                     <li><a href="#interests">Hobbies</a></li>
                     <li><a href="#skills">Skills</a></li>
@@ -98,9 +100,45 @@
             </div>
         </section>
 
+        <section id="research" class="reveal-up">
+            <div class="section-head">
+                <span class="section-label"><span class="num">02</span> Research</span>
+                <p class="section-note">Independent studies and university research — from evolutionary game dynamics to language models, taken from a question to a result.</p>
+            </div>
+
+            <div class="featured">
+                <div>
+                    <span class="featured-tag">Featured · Networks, Game Theory &amp; Social Dynamics</span>
+                    <h2><a href="https://skyngexe.github.io/trustnet/showcase.html" target="_blank" rel="noopener noreferrer">Restricted RPS — Evolutionary Game Dynamics on Social Networks</a></h2>
+                    <p class="featured-excerpt">An agent-based market where players exchange wealth through Rock–Paper–Scissors on an evolving social graph. Bayesian, Random, and Imitator strategies compete under endogenous trust, betrayal, and reputation gossip. Across 300-run batches I track inequality (Gini) and information collapse (Shannon entropy), and identify a betrayal-cascade threshold near 0.60 — the point where the social network fragments irreversibly and inequality locks in.</p>
+                    <div class="featured-links">
+                        <a href="https://skyngexe.github.io/trustnet/" target="_blank" rel="noopener noreferrer" class="card-link">Explore the live simulation &rarr;</a>
+                        <a href="https://skyngexe.github.io/trustnet/final_report.html" target="_blank" rel="noopener noreferrer" class="card-link">Read the full report &rarr;</a>
+                    </div>
+                </div>
+                <p class="pull">The network graph is not background context — it is the market itself. Destroy the trust topology and you destroy the economy.</p>
+            </div>
+
+            <div class="grid stagger">
+                <div class="card">
+                    <span class="card-cat">NLP · Systems</span>
+                    <h3>Semantic Caching for Large Language Models.</h3>
+                    <p>Final-year project. Trained a query-classification model and an adaptive hybrid-retrieval mechanism that decides when a cached response can be safely reused — lifting cache hit rate by 43% and F1 by 10% over a dense-retrieval baseline.</p>
+                    <a href="https://shorturl.at/qyYa4" class="card-link" target="_blank" rel="noopener noreferrer">View slides &rarr;</a>
+                    <span class="card-tag">Query Classification · Hybrid Retrieval · PyTorch</span>
+                </div>
+                <div class="card">
+                    <span class="card-cat">NLP · Graph ML</span>
+                    <h3>Temporal Relation Extraction with Graph Transformers.</h3>
+                    <p>Adapted a span-based graph transformer (RoBERTa encoder + Heterogeneous Graph Transformer) for joint event detection and temporal relation extraction on the AQUAINT TimeML corpus. Curriculum learning, focal loss, and dynamic thresholds lifted entity-recognition F1 from ~0.05 to 0.68. Built a timeline pipeline with cycle detection (Kahn's algorithm) and an interactive, draggable visualization.</p>
+                    <span class="card-tag">RoBERTa · Heterogeneous Graph Transformer · TimeML</span>
+                </div>
+            </div>
+        </section>
+
         <section id="writing">
             <div class="section-head">
-                <span class="section-label"><span class="num">02</span> Contents</span>
+                <span class="section-label"><span class="num">03</span> Contents</span>
                 <p class="section-note">A running collection — essays, poems, and small fictions.</p>
             </div>
             <div class="featured">
@@ -179,12 +217,6 @@
                     <h3>Fantasy of my own funeral.</h3>
                     <p>Sometimes I fantasise about my own funeral, pondering who will be there, where it will be held and what will be spoken of me.…</p>
                     <a href="essays/fantasy-of-my-own-funeral.html" class="card-link">Continue reading &rarr;</a>
-                </article>
-                <article class="card" data-category="Identity & Self" data-words="235">
-                    <span class="card-cat">Identity & Self</span>
-                    <h3>Mr Nimbus and Roger.</h3>
-                    <p>When it comes to digital persona, most named their instagram account after their own name and picked their picture as the icon, which is…</p>
-                    <a href="essays/mr-nimbus-and-roger.html" class="card-link">Continue reading &rarr;</a>
                 </article>
                 <article class="card" data-category="Identity & Self" data-words="129">
                     <span class="card-cat">Identity & Self</span>
@@ -335,7 +367,7 @@
 
         <section id="interests" class="reveal-up">
             <div class="section-head">
-                <span class="section-label"><span class="num">03</span> Hobbies</span>
+                <span class="section-label"><span class="num">04</span> Hobbies</span>
             </div>
             <div class="interests-groups stagger">
                 <div class="interest-group">
@@ -376,7 +408,7 @@
 
         <section id="skills" class="reveal-up">
             <div class="section-head">
-                <span class="section-label"><span class="num">04</span> Skill Tree</span>
+                <span class="section-label"><span class="num">05</span> Skill Tree</span>
             </div>
             <div class="facts" style="margin-bottom: 3.5rem;">
                 <div class="fact">
@@ -448,21 +480,10 @@
 
         <section id="projects" class="reveal-up">
             <div class="section-head">
-                <span class="section-label"><span class="num">05</span> The Work</span>
-                <p class="section-note">What I build outside the day job — research, tools, and systems taken from idea to something that runs.</p>
+                <span class="section-label"><span class="num">06</span> The Work</span>
+                <p class="section-note">What I build outside the research — tools, systems, and competitions taken from idea to something that runs.</p>
             </div>
             <div class="grid stagger">
-                <div class="card">
-                    <h3>Semantic Caching for LLMs.</h3>
-                    <p>Final Year Project. Trained a query classification model and developed an adaptive hybrid retrieval mechanism — boosting cache hit rate by 43% and F1 score by 10%.</p>
-                    <a href="https://shorturl.at/qyYa4" class="card-link" target="_blank" rel="noopener noreferrer">View slides &rarr;</a>
-                    <span class="card-tag">NLP · PyTorch · Systems</span>
-                </div>
-                <div class="card">
-                    <h3>Temporal Relation Extraction with Graph Transformers.</h3>
-                    <p>Adapted a span-based graph transformer (RoBERTa encoder + Heterogeneous Graph Transformer) for joint event detection and temporal relation extraction on the AQUAINT TimeML corpus. Curriculum learning, focal loss, and dynamic thresholds lifted entity-recognition F1 from ~0.05 to 0.68. Built a timeline pipeline with cycle detection (Kahn's algorithm) and an interactive, draggable visualization.</p>
-                    <span class="card-tag">RoBERTa · Graph Transformer · NLP</span>
-                </div>
                 <div class="card">
                     <h3>LLM Fine-tuning with Unsloth.</h3>
                     <p>Fine-tuned Meta Llama 3.2 3B Instruct with Unsloth LoRA on multi-turn group-chat data, quantized to GGUF (Q8_0) for local deployment via Ollama, and served it as a Discord bot.</p>
@@ -491,7 +512,7 @@
 
         <section id="contact" class="reveal-up">
             <div class="section-head">
-                <span class="section-label"><span class="num">06</span> Say Hello</span>
+                <span class="section-label"><span class="num">07</span> Say Hello</span>
             </div>
             <div class="grid">
                 <div class="card contact-card">

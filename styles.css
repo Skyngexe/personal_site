@@ -632,6 +632,12 @@ section {
     color: var(--ink-soft);
     margin-bottom: 1.5rem;
 }
+.featured-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+}
 @media (max-width: 760px) {
     .featured { grid-template-columns: 1fr; gap: 1.75rem; }
     .featured .pull { font-size: 1.2rem; }
