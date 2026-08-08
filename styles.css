@@ -696,6 +696,7 @@ section {
     transition: border-color 0.3s ease, color 0.25s ease;
 }
 .card-link:hover { border-bottom-color: var(--oxblood); color: var(--oxblood); }
+.card-link + .card-link { margin-left: 1.15rem; }
 
 .card-tag {
     display: block;

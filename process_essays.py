@@ -140,7 +140,6 @@ ESSAY_TEMPLATE = """<!DOCTYPE html>
         </article>
     </main>
     <footer>
-        <p class="colophon">Built with <strong>Claude Code</strong>.</p>
         <p class="copyright">&copy; 2026 Sky. All rights reserved.</p>
     </footer>
     <script>
@@ -174,7 +173,6 @@ CATEGORY_TEMPLATE = """<!DOCTYPE html>
         </section>
     </main>
     <footer>
-        <p class="colophon">Built with <strong>Claude Code</strong>.</p>
         <p class="copyright">&copy; 2026 Sky. All rights reserved.</p>
     </footer>
 </body>
