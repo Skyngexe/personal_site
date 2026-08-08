@@ -10,6 +10,7 @@
     <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'light');})();</script>
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to content</a>
     <div class="progress-bar" id="progressBar"></div>
     <nav class="chapter-rail" id="chapterRail" aria-label="Section navigation">
         <a href="#experience"><span class="dot"></span><span class="label">Experience</span></a>
@@ -62,14 +63,14 @@
         <div class="scroll-cue">Scroll</div>
     </header>
 
-    <main>
+    <main id="main">
         <section id="experience">
             <div class="section-head">
                 <span class="section-label"><span class="num">01</span> Experience</span>
                 <p class="section-note">Where I've put the engineering to work — from big tech to a bank to a game studio.</p>
             </div>
             <div class="timeline stagger">
-                <div class="tl-item">
+                <div class="tl-item tl-item--now">
                     <div class="tl-head">
                         <span class="tl-role">Applied AI Engineer <span class="tl-org">· Amazon Web Services (AWS)</span></span>
                         <span class="tl-when">Mar 2026 — Present</span>
@@ -519,8 +520,11 @@
                 <div class="card contact-card">
                     <h3>Let's talk.</h3>
                     <p>I build agentic AI and ML systems, and I write about identity, impermanence, and the small rituals that hold a life together. Open to opportunities overseas — if you liked what you read, that's the best introduction we could have.</p>
-                    <p>Email: <a href="mailto:yautungsky@gmail.com">yautungsky@gmail.com</a></p>
-                    <p>X: <a href="https://x.com/SkyyTheDev" target="_blank" rel="noopener noreferrer">@SkyyTheDev</a></p>
+                    <div class="contact-lines">
+                        <p class="contact-line"><span>Email</span><a href="mailto:yautungsky@gmail.com">yautungsky@gmail.com</a></p>
+                        <p class="contact-line"><span>X</span><a href="https://x.com/SkyyTheDev" target="_blank" rel="noopener noreferrer">@SkyyTheDev</a></p>
+                        <p class="contact-line"><span>GitHub</span><a href="https://github.com/Skyngexe" target="_blank" rel="noopener noreferrer">Skyngexe</a></p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -549,6 +553,7 @@
 
     <footer>
         <p class="copyright">&copy; 2026 Sky. All rights reserved.</p>
+        <a href="#hero" class="to-top">Back to top &uarr;</a>
     </footer>
 
     <script>
@@ -556,43 +561,94 @@
         // ---- Day / dusk theme ----
         const root = document.documentElement;
         const toggle = document.getElementById('themeToggle');
-        root.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
+        function applyTheme(t){
+            root.setAttribute('data-theme', t);
+            toggle.setAttribute('aria-pressed', t === 'dark');
+            toggle.setAttribute('aria-label', t === 'dark' ? 'Switch to day mode' : 'Switch to dusk mode');
+        }
+        applyTheme(localStorage.getItem('theme') || 'light');
         toggle.addEventListener('click', () => {
             const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            root.setAttribute('data-theme', next);
+            applyTheme(next);
             localStorage.setItem('theme', next);
         });
 
-        // ---- Reading-time on each contents entry ----
+        // ---- Contents entries: folio number, length gauge, reading time ----
         const cards = Array.from(document.querySelectorAll('#writing .grid > .card[data-category]'));
-        cards.forEach(c => {
-            const p = c.querySelector('p');
+        const counts = cards.map(c => parseInt(c.dataset.words || '0', 10));
+        const longest = Math.max(...counts, 1);
+
+        cards.forEach((c, i) => {
+            const folio = document.createElement('span');
+            folio.className = 'folio';
+            folio.setAttribute('aria-hidden', 'true');
+            // gauge length, 0–1, on a sqrt curve so short poems stay visible
+            folio.style.setProperty('--len', (Math.sqrt(counts[i] / longest)).toFixed(3));
+            c.prepend(folio);
+
             const link = c.querySelector('.card-link');
-            const wc = parseInt(c.dataset.words || '0', 10);
+            const wc = counts[i];
             if (wc && link) {
                 const mins = Math.max(1, Math.round(wc / 200));
                 const span = document.createElement('span');
                 span.className = 'read-time';
-                span.textContent = mins + ' min';
+                span.textContent = mins + ' min read';
                 link.after(span);
             }
         });
 
-        // ---- Category filter ----
-        const links = document.querySelectorAll('.category-link');
-        function showCategory(cat){
-            cards.forEach(c=> c.classList.toggle('hidden', !!cat && c.dataset.category !== cat));
+        // number the visible entries — so a filtered list still reads 01, 02, 03
+        function renumber(){
+            let n = 0;
+            cards.forEach(c => {
+                if (c.classList.contains('hidden')) return;
+                n += 1;
+                c.querySelector('.folio').textContent = String(n).padStart(2, '0');
+            });
         }
-        links.forEach(link=>{
+
+        // ---- Category filter ----
+        const links = Array.from(document.querySelectorAll('.category-link'));
+        const grid = document.querySelector('#writing .grid');
+        const empty = document.createElement('p');
+        empty.className = 'filter-empty';
+        empty.hidden = true;
+        empty.textContent = 'Nothing filed here yet.';
+        if (grid) grid.after(empty);
+
+        // show how many pieces sit under each category
+        links.forEach(l => {
+            const cat = l.dataset.category;
+            const count = cards.filter(c => c.dataset.category === cat).length;
+            if (!count) return;
+            const tally = document.createElement('span');
+            tally.className = 'cat-count';
+            tally.textContent = count;
+            l.append(' ', tally);
+        });
+
+        function showCategory(cat){
+            cards.forEach(c => c.classList.toggle('hidden', !!cat && c.dataset.category !== cat));
+            renumber();
+            const visible = cards.some(c => !c.classList.contains('hidden'));
+            empty.hidden = visible;
+        }
+        links.forEach(link => {
             const cat = link.dataset && link.dataset.category;
+            link.setAttribute('aria-pressed', 'false');
             link.addEventListener('click', function(e){
                 e.preventDefault();
                 const isActive = this.classList.contains('active');
-                links.forEach(l=>l.classList.remove('active'));
+                links.forEach(l => { l.classList.remove('active'); l.setAttribute('aria-pressed', 'false'); });
                 if (isActive){ showCategory(null); }
-                else { this.classList.add('active'); showCategory(cat); }
+                else {
+                    this.classList.add('active');
+                    this.setAttribute('aria-pressed', 'true');
+                    showCategory(cat);
+                }
             });
         });
+        renumber();
 
         // ---- Magnetic buttons ----
         if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -644,13 +700,19 @@
         const nav = document.querySelector('.nav-container');
         const bar = document.getElementById('progressBar');
         const hero = document.getElementById('hero');
+        let ticking = false;
         function onScroll(){
             nav.classList.toggle('scrolled', window.scrollY > 10);
             const h = document.documentElement.scrollHeight - window.innerHeight;
             bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
             rail.classList.toggle('show', window.scrollY > (hero ? hero.offsetHeight * 0.6 : 400));
+            ticking = false;
         }
-        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('scroll', () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(onScroll);
+        }, { passive: true });
         onScroll();
 
     })();
