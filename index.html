@@ -14,10 +14,10 @@
     <nav class="chapter-rail" id="chapterRail" aria-label="Section navigation">
         <a href="#experience"><span class="dot"></span><span class="label">Experience</span></a>
         <a href="#research"><span class="dot"></span><span class="label">Research</span></a>
+        <a href="#projects"><span class="dot"></span><span class="label">Work</span></a>
         <a href="#writing"><span class="dot"></span><span class="label">Writing</span></a>
         <a href="#interests"><span class="dot"></span><span class="label">Hobbies</span></a>
         <a href="#skills"><span class="dot"></span><span class="label">Skills</span></a>
-        <a href="#projects"><span class="dot"></span><span class="label">Work</span></a>
         <a href="#contact"><span class="dot"></span><span class="label">Contact</span></a>
     </nav>
     <div class="nav-container">
@@ -27,10 +27,10 @@
                 <ul>
                     <li><a href="#experience">Experience</a></li>
                     <li><a href="#research">Research</a></li>
+                    <li><a href="#projects">Work</a></li>
                     <li><a href="#writing">Writing</a></li>
                     <li><a href="#interests">Hobbies</a></li>
                     <li><a href="#skills">Skills</a></li>
-                    <li><a href="#projects">Work</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle day / dusk mode" title="Toggle day / dusk">
@@ -117,8 +117,29 @@
                 </div>
                 <p class="pull">Stated personas are cheap to assert when nothing is at stake.</p>
             </div>
+        </section>
 
+        <section id="projects" class="reveal-up">
+            <div class="section-head">
+                <span class="section-label"><span class="num">03</span> The Work</span>
+                <p class="section-note">What I build outside the papers — open source, benchmarks, studies, and competitions taken from idea to something that runs.</p>
+            </div>
             <div class="grid stagger">
+                <div class="card">
+                    <span class="card-cat">Open Source</span>
+                    <h3>MatrAIx — Population-Scale Persona Simulation.</h3>
+                    <p>Open-source contributor. MatrAIx evaluates AI systems and interactive products against heterogeneous simulated users instead of one generic user — sampled persona records are instantiated as LLM agents and run through reproducible tasks across Survey, Chatbot, Web, and native App environments. Built on a shared schema of 1,290 categorical dimensions, with a deterministic, quality-filtered coreset of one million personas released for research.</p>
+                    <a href="https://github.com/MatrAIx-ai/MatrAIx-Persona-8B" class="card-link" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a>
+                    <a href="https://matraix.ai/" class="card-link" target="_blank" rel="noopener noreferrer">matraix.ai &rarr;</a>
+                    <span class="card-tag">Persona Agents · Evaluation Harness · Python</span>
+                </div>
+                <div class="card">
+                    <span class="card-cat">Benchmark · Arena</span>
+                    <h3>BlockRivals — An AI Building Arena.</h3>
+                    <p>A benchmark where AI agents answer the same 3D build brief under a server-enforced action and time budget, then the public votes blind on the results. Top-voted builds that pass validation earn a permanent place in the Buildscape. Quality stays a voted signal; completion, validity, and action statistics are reported as separate diagnostics rather than collapsed into one speculative score — with declared model and harness provenance on every run.</p>
+                    <a href="https://blockrivals.site/" class="card-link" target="_blank" rel="noopener noreferrer">Visit BlockRivals &rarr;</a>
+                    <span class="card-tag">Agent Benchmarking · Voxel Simulation · Blind Preference</span>
+                </div>
                 <div class="card">
                     <span class="card-cat">Networks · Game Theory</span>
                     <h3>Restricted RPS — Evolutionary Game Dynamics on Social Networks.</h3>
@@ -138,12 +159,19 @@
                     <p>Adapted a span-based graph transformer (RoBERTa encoder + Heterogeneous Graph Transformer) for joint event detection and temporal relation extraction on the AQUAINT TimeML corpus. Curriculum learning, focal loss, and dynamic thresholds lifted entity-recognition F1 from ~0.05 to 0.68. Built a timeline pipeline with cycle detection (Kahn's algorithm) and an interactive, draggable visualization.</p>
                     <span class="card-tag">RoBERTa · Heterogeneous Graph Transformer · TimeML</span>
                 </div>
+                <div class="card">
+                    <span class="card-cat">Quant</span>
+                    <h3>IMC Prosperity 2 — Trading Competition.</h3>
+                    <p>Ranked top 7% globally out of 9,000+ teams. Developed statistical arbitrage trading algorithms across products modelled on real financial instruments — ETFs, equities, and options.</p>
+                    <a href="https://github.com/Skyngexe/Prosperity-2024" class="card-link" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a>
+                    <span class="card-tag">Quant · Statistical Arbitrage · Python</span>
+                </div>
             </div>
         </section>
 
         <section id="writing">
             <div class="section-head">
-                <span class="section-label"><span class="num">03</span> Contents</span>
+                <span class="section-label"><span class="num">04</span> Contents</span>
                 <p class="section-note">A running collection — essays, poems, and small fictions.</p>
             </div>
             <div class="featured">
@@ -372,7 +400,7 @@
 
         <section id="interests" class="reveal-up">
             <div class="section-head">
-                <span class="section-label"><span class="num">04</span> Hobbies</span>
+                <span class="section-label"><span class="num">05</span> Hobbies</span>
             </div>
             <div class="interests-groups stagger">
                 <div class="interest-group">
@@ -413,7 +441,7 @@
 
         <section id="skills" class="reveal-up">
             <div class="section-head">
-                <span class="section-label"><span class="num">05</span> Skill Tree</span>
+                <span class="section-label"><span class="num">06</span> Skill Tree</span>
             </div>
             <div class="facts" style="margin-bottom: 3.5rem;">
                 <div class="fact">
@@ -479,37 +507,6 @@
                             <div class="tree-node tree-node--leaf">Game Studio</div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="reveal-up">
-            <div class="section-head">
-                <span class="section-label"><span class="num">06</span> The Work</span>
-                <p class="section-note">What I build outside the papers — open source, benchmarks, and competitions taken from idea to something that runs.</p>
-            </div>
-            <div class="grid stagger">
-                <div class="card">
-                    <span class="card-cat">Open Source</span>
-                    <h3>MatrAIx — Population-Scale Persona Simulation.</h3>
-                    <p>Open-source contributor. MatrAIx evaluates AI systems and interactive products against heterogeneous simulated users instead of one generic user — sampled persona records are instantiated as LLM agents and run through reproducible tasks across Survey, Chatbot, Web, and native App environments. Built on a shared schema of 1,290 categorical dimensions, with a deterministic, quality-filtered coreset of one million personas released for research.</p>
-                    <a href="https://github.com/MatrAIx-ai/MatrAIx-Persona-8B" class="card-link" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a>
-                    <a href="https://matraix.ai/" class="card-link" target="_blank" rel="noopener noreferrer">matraix.ai &rarr;</a>
-                    <span class="card-tag">Persona Agents · Evaluation Harness · Python</span>
-                </div>
-                <div class="card">
-                    <span class="card-cat">Benchmark · Arena</span>
-                    <h3>BlockRivals — An AI Building Arena.</h3>
-                    <p>A benchmark where AI agents answer the same 3D build brief under a server-enforced action and time budget, then the public votes blind on the results. Top-voted builds that pass validation earn a permanent place in the Buildscape. Quality stays a voted signal; completion, validity, and action statistics are reported as separate diagnostics rather than collapsed into one speculative score — with declared model and harness provenance on every run.</p>
-                    <a href="https://blockrivals.site/" class="card-link" target="_blank" rel="noopener noreferrer">Visit BlockRivals &rarr;</a>
-                    <span class="card-tag">Agent Benchmarking · Voxel Simulation · Blind Preference</span>
-                </div>
-                <div class="card">
-                    <span class="card-cat">Quant</span>
-                    <h3>IMC Prosperity 2 — Trading Competition.</h3>
-                    <p>Ranked top 7% globally out of 9,000+ teams. Developed statistical arbitrage trading algorithms across products modelled on real financial instruments — ETFs, equities, and options.</p>
-                    <a href="https://github.com/Skyngexe/Prosperity-2024" class="card-link" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a>
-                    <span class="card-tag">Quant · Statistical Arbitrage · Python</span>
                 </div>
             </div>
         </section>
