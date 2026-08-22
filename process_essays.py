@@ -38,6 +38,7 @@ titles = [
     'Beyond the hype and desperation of technological acceleration',
     'Everybody hates their own country',
     'The flavour of mud and pud',
+    'Window washer from the Star',
 ]
 
 # --- Clean, consolidated taxonomy (8 categories, no overlaps) ---
@@ -77,6 +78,7 @@ CATEGORY_MAP = {
     'Beyond the hype and desperation of technological acceleration': 'Tech & Society',
     'Everybody hates their own country': 'Culture & Society',
     'The flavour of mud and pud': 'Poems',
+    'Window washer from the Star': 'Poems',
 }
 
 # Order categories should appear in the filter bar
@@ -90,6 +92,8 @@ CATEGORY_ORDER = [
     'Poems',
     'Short Stories',
 ]
+
+VERBATIM_TITLES = {'Window washer from the Star'}
 
 if not os.path.exists('essays.md'):
     print("essays.md not found.")
@@ -179,10 +183,18 @@ CATEGORY_TEMPLATE = """<!DOCTYPE html>
 </html>"""
 
 
-def get_html(md):
+def get_html(md, preserve_line_breaks=False):
     """Convert plain text into HTML paragraphs.
     A sentence end followed by a capitalized new line is treated as a paragraph
     break; remaining single newlines become <br> (keeps poem line breaks)."""
+    if preserve_line_breaks:
+        md = md.strip('\r\n')
+        paragraphs = re.split(r'\n\n+', md)
+        return "".join(
+            f"<p>{para.replace(chr(10), '<br>')}</p>\n"
+            for para in paragraphs
+        )
+
     md = re.sub(r"([\.\?!][\"']?)\s*\n(?=[A-Z])", r"\1\n\n", md)
     paragraphs = re.split(r'\n\n+', md.strip())
     html = ""
@@ -203,11 +215,15 @@ for title, content in essays:
     slug = re.sub(r'[^a-zA-Z0-9]+', '-', title.lower()).strip('-')
     filename = f"{slug}.html"
     category = CATEGORY_MAP.get(title, 'Philosophy & Reflection')
+    card_title = title if title in VERBATIM_TITLES else f'{title}.'
 
     # Essay page
     page = (ESSAY_TEMPLATE
             .replace('{{TITLE}}', title)
-            .replace('{{CONTENT}}', get_html(content))
+            .replace('{{CONTENT}}', get_html(
+                content,
+                preserve_line_breaks=(title in VERBATIM_TITLES),
+            ))
             .replace('{{CATEGORY}}', category))
     with open(os.path.join('essays', filename), 'w', encoding='utf-8') as f:
         f.write(page)
@@ -220,10 +236,16 @@ for title, content in essays:
     index_cards.append(
         '<article class="card" data-category="{cat}" data-words="{wc}">\n'
         '                    <span class="card-cat">{cat}</span>\n'
-        '                    <h3>{title}.</h3>\n'
+        '                    <h3>{card_title}</h3>\n'
         '                    <p>{summary}</p>\n'
         '                    <a href="essays/{fn}" class="card-link">Continue reading &rarr;</a>\n'
-        '                </article>'.format(cat=category, title=title, summary=summary, fn=filename, wc=wordcount)
+        '                </article>'.format(
+            cat=category,
+            card_title=card_title,
+            summary=summary,
+            fn=filename,
+            wc=wordcount,
+        )
     )
 
     categories.setdefault(category, []).append((title, filename, summary))
@@ -234,10 +256,15 @@ for cat, items in categories.items():
     items_html = "\n".join(
         '<article class="card">\n'
         '                <span class="card-cat">{cat}</span>\n'
-        '                <h3>{t}.</h3>\n'
+        '                <h3>{display_title}</h3>\n'
         '                <p>{s}</p>\n'
         '                <a href="../essays/{fn}" class="card-link">Continue reading &rarr;</a>\n'
-        '            </article>'.format(cat=cat, t=t, s=s, fn=fn)
+        '            </article>'.format(
+            cat=cat,
+            display_title=t if t in VERBATIM_TITLES else f'{t}.',
+            s=s,
+            fn=fn,
+        )
         for t, fn, s in items
     )
     cat_page = CATEGORY_TEMPLATE.replace('{{CAT}}', cat).replace('{{ITEMS}}', items_html)

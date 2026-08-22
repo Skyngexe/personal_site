@@ -331,3 +331,17 @@ that hugs my feet like a bud,
 just so my toe can finally taste,
 
 the muddy flavour of pud.
+
+Window washer from the Star
+From a crumbling star, I leapt.
+Into the void of kitsch,
+or so I thought.
+
+In there I am a window washer,
+a cloth clutched in my fist, 
+scrubbing panes after panes,
+polishing glasses after glasses.
+
+Afterall it’s the window to the world,
+or so I thought,
+but there’s sand in the cloth. 

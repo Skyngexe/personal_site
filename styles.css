@@ -810,6 +810,7 @@ main > section:first-child { border-top: none; }
     border-top: 1px solid var(--rule-soft);
     transition: border-color 0.5s ease;
 }
+#writing .grid > .card.hidden { display: none; }
 #writing .grid > .card::before { content: none; }   /* no scaleX rule here */
 /* one hairline weight down the whole index; the last entry closes it */
 #writing .grid > .card:last-of-type { border-bottom: 1px solid var(--rule-soft); }
