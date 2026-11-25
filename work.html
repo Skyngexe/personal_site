@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering — Sky</title>
+    <meta name="description" content="Sky — I build AI systems and I write about the rest. Essays, poems, and short fiction on identity, impermanence, and the small rituals that hold a life together.">
+    <link rel="stylesheet" href="styles.css">
+    <script src="site.js" defer></script>
+    <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'light');})();</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="mast"><div class="mast-inner"><a class="signature" href="index.html" aria-label="Sky, home">Sky</a>
+<nav aria-label="Primary"><a href="writing.html">Writing</a><a href="work.html" aria-current="page">Engineering</a><a href="experience.html">Experience</a><a href="about.html">About</a></nav><button id="themeToggle" aria-label="Switch theme" title="Switch theme">◐</button></div></header>
+<main id="main" class="collection"><h1>Engineering</h1><nav class="local-nav" aria-label="Engineering sections"><a href="#research">Research</a><a href="#projects">Projects</a></nav>        <section id="research" class="reveal-up">
+            <div class="section-head">
+                <h2 class="section-label">Research</h2>
+                <p class="section-note">Independent studies and university research — from evolutionary game dynamics to language models, taken from a question to a result.</p>
+            </div>
+
+            <div class="featured">
+                <div>
+                    <span class="featured-tag">Featured · SocialSim '26 · Multi-Agent LM Systems</span>
+                    <h2><a href="https://arxiv.org/pdf/2608.15844" target="_blank" rel="noopener noreferrer">MicroVerse — Measuring Self-Authored Identity Drift in Long-Horizon Multi-Agent Simulations</a></h2>
+                    <p class="featured-excerpt">First-author paper, accepted at the <a href="https://sites.google.com/view/social-sims-with-llms/social-sim26" target="_blank" rel="noopener noreferrer">Social Simulation with LLMs</a> workshop (SocialSim '26). An instrument for measuring whether persona-conditioned agents keep their identity under sustained survival pressure. Each agent carries an immutable "soul file" — core values, moral boundaries, personality, goals — and lives in a 50 × 50 desert where water never respawns, so honouring a value costs something real. Agents revise a mutable current identity against their frozen original soul through their own reflection loops; drift is then scored offline with a paraphrase-aware, value-anchored diff rather than raw cosine similarity. Two findings: <em>anti-self-deception</em> emerges unprompted as the largest category of self-authored change (27 of 111 added boundaries, 24%) — agents spontaneously naming and rejecting their own rationalisations — and drift direction is threshold-robust, not an artifact of reflection cadence.</p>
+                    <p class="featured-excerpt">A <a href="https://matraix.ai/research/env-colm.html" target="_blank" rel="noopener noreferrer">follow-up write-up</a> extends the seed run to harsher and gentler worlds, three seeds per condition, and two models under identical rules — including blank-slate arms with no assigned persona at all. Agents still author moral guardrails from scratch, a third to half of them under acute scarcity. The apparent "abundance grows conscience" gradient turns out to be an exposure artifact: normalised per agent-tick lived, guardrail authoring is highest in the deadliest arms. And intent diverges sharply from action — survival plans get executed, cooperative ones almost never do, with only 2 of 22 trade submissions across 300 agent-lifetimes actually settling.</p>
+                    <a href="https://arxiv.org/pdf/2608.15844" class="card-link" target="_blank" rel="noopener noreferrer">Read on arXiv &rarr;</a>
+                    <a href="https://matraix.ai/research/env-colm.html" class="card-link" target="_blank" rel="noopener noreferrer">Read the follow-up &rarr;</a>
+                </div>
+                <p class="pull">Stated personas are cheap to assert when nothing is at stake.</p>
+            </div>
+        </section>        <section id="projects" class="reveal-up">
+            <div class="section-head">
+                <h2 class="section-label">Projects</h2>
+                <p class="section-note">What I build outside the papers — open source, benchmarks, studies, and competitions taken from idea to something that runs.</p>
+            </div>
+            <div class="grid stagger">
+                <div class="card">
+                    <span class="card-cat">Open Source</span>
+                    <h3>MatrAIx — Population-Scale Persona Simulation.</h3>
+                    <p>Open-source contributor. MatrAIx evaluates AI systems and interactive products against heterogeneous simulated users instead of one generic user — sampled persona records are instantiated as LLM agents and run through reproducible tasks across Survey, Chatbot, Web, and native App environments. Built on a shared schema of 1,290 categorical dimensions, with a deterministic, quality-filtered coreset of one million personas released for research.</p>
+                    <a href="https://github.com/MatrAIx-ai/MatrAIx-Persona-8B" class="card-link" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a>
+                    <a href="https://matraix.ai/" class="card-link" target="_blank" rel="noopener noreferrer">matraix.ai &rarr;</a>
+                    <span class="card-tag">Persona Agents · Evaluation Harness · Python</span>
+                </div>
+                <div class="card">
+                    <span class="card-cat">Benchmark · Arena</span>
+                    <h3>BlockRivals — An AI Building Arena.</h3>
+                    <p>A benchmark where AI agents answer the same 3D build brief under a server-enforced action and time budget, then the public votes blind on the results. Top-voted builds that pass validation earn a permanent place in the Buildscape. Quality stays a voted signal; completion, validity, and action statistics are reported as separate diagnostics rather than collapsed into one speculative score — with declared model and harness provenance on every run.</p>
+                    <a href="https://blockrivals.site/" class="card-link" target="_blank" rel="noopener noreferrer">Visit BlockRivals &rarr;</a>
+                    <span class="card-tag">Agent Benchmarking · Voxel Simulation · Blind Preference</span>
+                </div>
+                <div class="card">
+                    <span class="card-cat">Networks · Game Theory</span>
+                    <h3>Restricted RPS — Evolutionary Game Dynamics on Social Networks.</h3>
+                    <p>An agent-based market where players exchange wealth through Rock–Paper–Scissors on an evolving social graph. Bayesian, Random, and Imitator strategies compete under endogenous trust, betrayal, and reputation gossip. Across 300-run batches I track inequality (Gini) and information collapse (Shannon entropy), and identify a betrayal-cascade threshold near 0.60 — where the network fragments irreversibly and inequality locks in.</p>
+                    <span class="card-tag">Agent-Based Modelling · Gini · Shannon Entropy</span>
+                </div>
+                <div class="card">
+                    <span class="card-cat">NLP · Systems</span>
+                    <h3>Semantic Caching for Large Language Models.</h3>
+                    <p>Final-year project. Trained a query-classification model and an adaptive hybrid-retrieval mechanism that decides when a cached response can be safely reused — lifting cache hit rate by 43% and F1 by 10% over a dense-retrieval baseline.</p>
+                    <a href="https://shorturl.at/qyYa4" class="card-link" target="_blank" rel="noopener noreferrer">View slides &rarr;</a>
+                    <span class="card-tag">Query Classification · Hybrid Retrieval · PyTorch</span>
+                </div>
+                <div class="card">
+                    <span class="card-cat">NLP · Graph ML</span>
+                    <h3>Temporal Relation Extraction with Graph Transformers.</h3>
+                    <p>Adapted a span-based graph transformer (RoBERTa encoder + Heterogeneous Graph Transformer) for joint event detection and temporal relation extraction on the AQUAINT TimeML corpus. Curriculum learning, focal loss, and dynamic thresholds lifted entity-recognition F1 from ~0.05 to 0.68. Built a timeline pipeline with cycle detection (Kahn's algorithm) and an interactive, draggable visualization.</p>
+                    <span class="card-tag">RoBERTa · Heterogeneous Graph Transformer · TimeML</span>
+                </div>
+                <div class="card">
+                    <span class="card-cat">Quant</span>
+                    <h3>IMC Prosperity 2 — Trading Competition.</h3>
+                    <p>Ranked top 7% globally out of 9,000+ teams. Developed statistical arbitrage trading algorithms across products modelled on real financial instruments — ETFs, equities, and options.</p>
+                    <a href="https://github.com/Skyngexe/Prosperity-2024" class="card-link" target="_blank" rel="noopener noreferrer">View on GitHub &rarr;</a>
+                    <span class="card-tag">Quant · Statistical Arbitrage · Python</span>
+                </div>
+            </div>
+        </section></main>
+<footer class="colophon"><a href="index.html">Sky · Hong Kong</a><a href="about.html#contact">Get in touch</a></footer>
+</body></html>

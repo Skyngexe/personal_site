@@ -123,13 +123,12 @@ ESSAY_TEMPLATE = """<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{TITLE}} — Sky</title>
     <link rel="stylesheet" href="../styles.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%238a3324' fill-opacity='0.08' stroke='%238a3324' stroke-width='2'/><circle cx='50' cy='50' r='9' fill='%238a3324'/></svg>">
     <script>(function(){var t=localStorage.getItem('theme')||((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
     <div class="progress-bar" id="progressBar"></div>
     <div class="nav-container"><nav>
-        <a href="../index.html" class="logo">Sky</a>
+        <a class="logo" href="../index.html" aria-label="Sky, home">Sky</a>
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle day / dusk mode" title="Toggle day / dusk">
             <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.8v2.4M12 19.8v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M1.8 12h2.4M19.8 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>
             <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
@@ -137,7 +136,7 @@ ESSAY_TEMPLATE = """<!DOCTYPE html>
     </nav></div>
     <main>
         <article class="essay-body">
-            <a href="../index.html#writing" class="back-link">&larr; All writing</a>
+            <a href="../writing.html" class="back-link">&larr; All writing</a>
             <span class="meta">{{CATEGORY}}</span>
             <h1>{{TITLE}}</h1>
             <div class="prose">{{CONTENT}}</div>
@@ -168,10 +167,10 @@ CATEGORY_TEMPLATE = """<!DOCTYPE html>
     <script>(function(){var t=localStorage.getItem('theme')||((window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light');document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body>
-    <div class="nav-container"><nav><a href="../index.html" class="logo">Sky</a></nav></div>
+    <div class="nav-container"><nav><a class="logo" href="../index.html" aria-label="Sky, home">Sky</a></nav></div>
     <main>
         <section class="category-page">
-            <a href="../index.html#writing" class="back-link">&larr; All writing</a>
+            <a href="../writing.html" class="back-link">&larr; All writing</a>
             <h1>{{CAT}}</h1>
             {{ITEMS}}
         </section>
@@ -278,13 +277,13 @@ for cat in CATEGORY_ORDER:
         continue
     cat_slug = re.sub(r'[^a-zA-Z0-9]+', '-', cat.lower()).strip('-')
     category_links.append(
-        '<a href="#" class="category-link" data-category="{cat}" '
+        '<a href="categories/{slug}.html" class="category-link" data-category="{cat}" '
         'data-page="categories/{slug}.html">{cat}</a>'.format(cat=cat, slug=cat_slug)
     )
 categories_nav = '<div class="categories">' + ''.join(category_links) + '</div>'
 
 # --- Inject into index.html writing grid ---
-with open('index.html', 'r', encoding='utf-8') as f:
+with open('writing.html', 'r', encoding='utf-8') as f:
     orig_index = f.read()
 
 grid_inner = (
@@ -301,7 +300,7 @@ new_index = re.sub(
     flags=re.DOTALL,
 )
 
-with open('index.html', 'w', encoding='utf-8') as f:
+with open('writing.html', 'w', encoding='utf-8') as f:
     f.write(new_index)
 
 print(f"Done: {len(index_cards)} essays, {len(categories)} categories.")

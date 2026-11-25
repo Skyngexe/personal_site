@@ -29,7 +29,7 @@ with open("essays.html", "r", encoding="utf-8") as f:
 <html lang="en">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{TITLE}} | Sky's Thought Hub</title>
+    <title>{{TITLE}} — Sky</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
         .essay-body { max-width: 750px; margin: 6rem auto 10rem; padding: 0 2rem; }
@@ -42,7 +42,7 @@ with open("essays.html", "r", encoding="utf-8") as f:
     </style>
 </head>
 <body>
-    <div class="nav-container"><nav><a href="../index.html" class="logo">SKY.LOG</a></nav></div>
+    <div class="nav-container"><nav><a class="logo" href="../index.html" aria-label="Sky, home">Sky</a></nav></div>
     <main><article class="essay-body"><a href="../index.html" class="back-link">&larr; Back to Home</a>
     <span class="meta">{{DATE}} | Perspective</span>
     <h1>{{TITLE}}</h1>
